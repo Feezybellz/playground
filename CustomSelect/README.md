@@ -7,7 +7,6 @@ CustomSelect is a JavaScript library for creating custom-styled dropdowns with e
 - Custom-styled dropdowns with configurable styles.
 - Search functionality for quickly finding options.
 - Easy integration with existing HTML `<select>` elements.
-- Event triggering for customization and extensibility.
 
 ## Installation
 
@@ -15,9 +14,10 @@ Include the CustomSelect script in your HTML file:
 
 ```html
 <script src="path/to/custom-select.js"></script>
+```
 
 ## Usage
-
+```html
 // Import or include the library
 <script src="path/to/custom-select.js"></script>
 
@@ -34,14 +34,15 @@ CustomSelect.init(specificElement);
 Below example is using a class ".class1"
 CustomSelect.init(".class1");
 
+```
 
 ## API
-CustomSelect.init()
+- CustomSelect.init()
 Initializes CustomSelect on the specified HTML elements.
 
 elements: (Optional) Accepts either an HTMLElement, NodeList, or a CSS selector string. If not provided, it will initialize on all .custom-select elements.
 
-CustomSelect.triggerChange(element)
+- CustomSelect.triggerChange(element)
 Triggers the change event on the specified HTML element.
 
 element: The HTML element on which the change event will be triggered.
