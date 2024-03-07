@@ -38,11 +38,11 @@ CustomSelect.init(".class1");
 
 ## API
 - CustomSelect.init()
-Initializes CustomSelect on the specified HTML elements.
+  - Initializes CustomSelect on the specified HTML elements.
 
-- - elements: (Optional) Accepts either an HTMLElement, NodeList, or a CSS selector string. If not provided, it will initialize on all .custom-select elements.
+  - elements: (Optional) Accepts either an HTMLElement, NodeList, or a CSS selector string. If not provided, it will initialize on all .custom-select elements.
 
 - CustomSelect.triggerChange(element)
-- - Triggers the change event on the specified HTML element.
+  - Triggers the change event on the specified HTML element.
 
-- - element: The HTML element on which the change event will be triggered.
+  - element: The HTML element on which the change event will be triggered.
