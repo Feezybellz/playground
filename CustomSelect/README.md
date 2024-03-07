@@ -35,7 +35,7 @@ Below example is using a class ".class1"
 CustomSelect.init(".class1");
 
 
-#API
+##API
 CustomSelect.init()
 Initializes CustomSelect on the specified HTML elements.
 
