@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+	<title>docx2html example</title>
+<head>
+	<script src="index.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.6.1/jszip.min.js" integrity="sha512-qDzk+Wqv8uAmrIr0t9Hjo4qM3DjvwTWuuuG3w9H8JBKd1EMpMaUEKoHKYbX6yP+ilTloEADFKFwKMzOZLlgTEg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip-utils/0.1.0/jszip-utils.min.js" integrity="sha512-3WaCYjK/lQuL0dVIRt1thLXr84Z/4Yppka6u40yEJT1QulYm9pCxguF6r8V84ndP5K03koI9hV1+zo/bUbgMtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+</head>
+<body>
+	<div>
+		<center>
+			<!-- <h2>select a docx to convert to html</h2> -->
+			<!-- <input id="fileInput" type="file" /> -->
+		</center>
+		<div id="container" style="margin:10px;padding:10px;border:1px solid; text-align:left; min-height:500px;"></div>
+		<div id="hidden_container" style="display:none;"></div>
+		<button id="download_btn" >Download</button>
+	</div>
+</body>
+<script>
+
+
+	var fileInput = document.querySelector("#fileInput");
+	var container = document.querySelector("#container");
+	var hidden_container = document.querySelector("#hidden_container");
+
+	var documentPath = "test.docx";
+	// var documentPath = "document.doc";
+	// var documentPath = "test2.doc";
+	// var documentPath = "https://uncaccoalition.org/wp-content/uploads/MOU-NG-and-IE_11-August-2020.docx";
+
+	// var documentPath = "https://www.cdc.gov/globalhealth/immunization/stop/documents/CV-Example-STOP-Program-English-508.docx"
+	// var documentPath = "http://afeez-server.com/docs4js/docs/test.docx";
+	// var documentPath = "https://www.cwu.edu/academics/academic-resources/career-services/_documents/cv-how-to.docx";
+	// var documentPath = "https://uncaccoalition.org/wp-content/uploads/MOU-NG-and-IE_11-August-2020.docx";
+	// var documentPath = "https://njms.rutgers.edu/faculty_affairs/documents/CVFORMATNJMSRevisedbyCENTRALADMINISTRATIONeff712011.docx";
+	// var documentPath = "https://www.ids.ac.uk/download.php?file=wp-content/uploads/2020/05/CV-Simbarashe-Gukurume-Abridged.docx"
+	// var documentPath = "https://medicine.umich.edu/sites/default/files/content/downloads/Warber_CV_01_12_17%20lkp.docx"
+	// fileInput.addEventListener("change", function(){
+	// 		test(fileInput);
+	// });
+
+	const docx2html = require("docx2html");
+
+
+	function convertDocx2Hml(file){
+		// console.log(container);
+		docx2html(file, {container:hidden_container})
+			.then(html=>{
+
+				container.setAttribute("contenteditable", true);
+				container.innerHTML = html.toString();
+
+				console.log(html);
+				// input.value=""
+				// console.log(html.toString());
+				// docx2html(html, {name:"My Document"});
+
+				// var
+				// debugger
+				// try html.toString/asZip/download/save
+			}).catch(err=>{
+				console.log(err);
+			})
+	}
+
+
+container.addEventListener('change', function(){
+
+});
+
+// console.log(JSZipUtils);
+documentPath = `file-server.php?file_url=${documentPath}`;
+
+console.log(documentPath);
+JSZipUtils.getBinaryContent(documentPath, function (err, content) {
+	console.log(err);
+	console.log(content);
+
+	// if (err) {
+	// 	content = new TextDecoder().decode(content);
+	// }
+	// console.log(content);
+	const blob = new Blob([content]);
+
+	// Create a File object from the Blob
+	const file = new File([blob], 'example.docx', { type: 'application/octet-stream' });
+	console.log(file);
+
+	convertDocx2Hml(file);
+
+		// mammoth.convertToHtml({ arrayBuffer: content }, mammothOptions)
+		// 		.then(displayResult)
+		// 		.done();
+});
+
+
+function Export2Word(element, filename = ''){
+    var preHtml = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Export HTML To Doc</title></head><body>";
+    var postHtml = "</body></html>";
+    var html = preHtml+element.innerHTML+postHtml;
+
+    var blob = new Blob(['\ufeff', html], {
+        type: 'application/msword'
+    });
+
+    // Specify link url
+    var url = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(html);
+
+    // Specify file name
+    filename = filename?filename+'.doc':'document.doc';
+
+    // Create download link element
+    var downloadLink = document.createElement("a");
+
+    document.body.appendChild(downloadLink);
+
+    if(navigator.msSaveOrOpenBlob ){
+        navigator.msSaveOrOpenBlob(blob, filename);
+    }else{
+        // Create a link to the file
+        downloadLink.href = url;
+
+        // Setting the file name
+        downloadLink.download = filename;
+
+        //triggering the function
+        downloadLink.click();
+    }
+
+    document.body.removeChild(downloadLink);
+}
+
+download_btn.addEventListener('click', function(){
+
+	Export2Word(document.querySelector(`#container`), 'test5.docx');
+});
+
+</script>
+</html>

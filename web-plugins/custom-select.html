@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+      .custom-select {
+    position: relative;
+    width: 200px;
+}
+
+.select-search {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.select-options {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-height: 150px;
+    overflow-y: auto;
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+    background: white;
+    border: 1px solid #ddd;
+    display: none; /* Hidden by default */
+}
+
+.select-options li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.select-options li:hover {
+    background-color: #f0f0f0;
+}
+
+    </style>
+  </head>
+  <body>
+    <select data-custom-select>
+        <option value="option1">Option 1</option>
+        <option value="option2">Option 2</option>
+        <!-- ... other options ... -->
+    </select>
+
+
+      <select data-custom-select>
+          <option value="option1">market 1</option>
+          <option value="option2">Option 2</option>
+          <!-- ... other options ... -->
+      </select>
+
+
+        <select data-custom-select>
+            <option value="option1">Option 1</option>
+            <option value="option2">Option 2</option>
+            <!-- ... other options ... -->
+        </select>
+
+
+<script type="text/javascript">
+  function customSelect() {
+    return {
+        init: function() {
+            const selects = document.querySelectorAll('[data-custom-select]');
+
+            selects.forEach(select => {
+                // Create the search input element
+                const searchInput = document.createElement('input');
+                searchInput.type = 'text';
+
+                // Create a container for the options
+                const optionsList = document.createElement('ul');
+                optionsList.className = 'select-options';
+
+                // Append the search input and options list
+                select.parentNode.insertBefore(searchInput, select);
+                select.parentNode.insertBefore(optionsList, select.nextSibling);
+
+                // Hide the original select
+                select.style.display = 'none';
+
+                // Populate the options list
+                Array.from(select.options).forEach(option => {
+                    const li = document.createElement('li');
+                    li.textContent = option.text;
+                    li.addEventListener('click', () => {
+                        searchInput.value = option.text;
+                        select.value = option.value;
+                        optionsList.style.display = 'none';
+
+                        // Trigger change event on original select
+                        const event = new Event('change');
+                        select.dispatchEvent(event);
+                    });
+                    optionsList.appendChild(li);
+                });
+
+                // Event listener for the search input
+                searchInput.addEventListener('input', () => {
+                    const query = searchInput.value.toLowerCase();
+                    this.filterOptions(query, optionsList, select);
+                });
+
+                // Optional: Hide options when clicking outside the custom select
+                document.addEventListener('click', (e) => {
+                    if (!e.target.closest('.custom-select')) {
+                        optionsList.style.display = 'none';
+                    }
+                });
+            });
+        },
+
+        filterOptions: function(query, optionsList, select) {
+            const filteredOptions = Array.from(select.options).filter(
+                option => option.text.toLowerCase().includes(query)
+            );
+
+            optionsList.innerHTML = '';
+            filteredOptions.forEach(option => {
+                const li = document.createElement('li');
+                li.textContent = option.text;
+                li.addEventListener('click', () => {
+                    // Same as above
+                });
+                optionsList.appendChild(li);
+            });
+
+            optionsList.style.display = 'block';
+        },
+    };
+}
+
+const myCustomSelect = customSelect();
+myCustomSelect.init();
+
+</script>
+  </body>
+</html>

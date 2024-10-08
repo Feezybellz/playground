@@ -1,0 +1,35 @@
+<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Export HTML To Doc</title></head><body>
+<meta charset="utf-8"><meta key="generator" value="docx2html"><title>example</title><style>
+#A * { margin: 0px; border: 0px; padding: 0px; box-sizing: border-box; }
+#A table { width: 100%; border-collapse: collapse; word-break: break-word; }
+#A section { margin: auto; background-color: white; color: black; position: relative; z-index: 0; }
+#A p:empty::before { content: ""; display: inline-block; }
+#A ul { list-style: none; }
+#A ul > li > p { position: relative; }
+#A ul .marker { position: absolute; }
+#A a { text-decoration: none; }
+#A .unsupported { outline: red solid 2px; }
+#A .warning { outline: yellow solid 1px; }
+#A span, #A a { font-family: Calibri; }
+#A ._1 span { font-family: Calibri; }
+#A ._2 { }
+#A ._3 { }
+#A ._3 > tbody > tr > td { padding: 0px 7px; }
+#A ._4 { }
+#A ._4 > tbody > tr > td:first-child { border-left: 1pt solid rgb(0, 0, 0); border-right: 1pt solid rgb(0, 0, 0); }
+#A ._4 > tbody > tr > td:last-child { border-right: 1pt solid rgb(0, 0, 0); border-left: 1pt solid rgb(0, 0, 0); }
+#A ._4 > tbody > tr:first-of-type > td { border-top: 1pt solid rgb(0, 0, 0); border-bottom: 1pt solid rgb(0, 0, 0); }
+#A ._4 > tbody > tr:last-of-type > td { border-bottom: 1pt solid rgb(0, 0, 0); border-top: 1pt solid rgb(0, 0, 0); }
+#A ._4 > tbody > tr > td:not(:first-child):not(:last-child) { border-left: 1pt solid rgb(0, 0, 0); border-right: 1pt solid rgb(0, 0, 0); }
+#A ._4 > tbody > tr:not(:first-of-type):not(:last-of-type) > td { border-bottom: 1pt solid rgb(0, 0, 0); border-top: 1pt solid rgb(0, 0, 0); }
+#A ._4 > tbody > tr > .table p { }
+#A0[x0][x1][x2][x3][x4][x5][x6][x7][x8][x9][x10][x11] > tbody > tr > td:first-child { border-left: 1pt solid rgb(0, 0, 0); border-right: 1pt solid rgb(0, 0, 0); }
+#A0[x0][x1][x2][x3][x4][x5][x6][x7][x8][x9][x10][x11] > tbody > tr > td:last-child { border-right: 1pt solid rgb(0, 0, 0); border-left: 1pt solid rgb(0, 0, 0); }
+#A0[x0][x1][x2][x3][x4][x5][x6][x7][x8][x9][x10][x11] > tbody > tr:first-of-type > td { border-top: 1pt solid rgb(0, 0, 0); border-bottom: 1pt solid rgb(0, 0, 0); }
+#A0[x0][x1][x2][x3][x4][x5][x6][x7][x8][x9][x10][x11] > tbody > tr:last-of-type > td { border-bottom: 1pt solid rgb(0, 0, 0); border-top: 1pt solid rgb(0, 0, 0); }
+#A0[x0][x1][x2][x3][x4][x5][x6][x7][x8][x9][x10][x11] > tbody > tr > td:not(:first-child):not(:last-child) { border-left: 1pt solid rgb(0, 0, 0); border-right: 1pt solid rgb(0, 0, 0); }
+#A0[x0][x1][x2][x3][x4][x5][x6][x7][x8][x9][x10][x11] > tbody > tr:not(:first-of-type):not(:last-of-type) > td { border-bottom: 1pt solid rgb(0, 0, 0); border-top: 1pt solid rgb(0, 0, 0); }
+#A0[x0][x1][x2][x3][x4][x5][x6][x7][x8][x9][x10][x11] > tbody > tr > td { padding-left: 7px; padding-right: 7px; }
+</style>
+<div id="A" style="background-color: transparent; min-height: 1000px; width: 100%; padding-top: 20px; overflow: auto;"><style></style><section style="width: 793px; min-height: 1122px; padding: 96px 120px; column-count: 1; column-gap: 48px;"><p class=" _1"><span class=" _2" style="font-weight: 700; font-size: 29px;">My Name is Bello Afeez</span></p><p class=" _1"><span class=" _2" style="text-decoration: underline;">I am testing</span></p><p class=" _1"><span class=" _2" style="font-weight: 700;">If this is working</span><span class=" _2"><img style="width: 552px; height: 311px; margin-left: 12px; margin-right: 12px;" src="blob:http://afeez-server.com/9c0bce11-12b4-4d36-9844-b86965268a27"></span></p><p class=" _1" style="text-align: right;"><span class=" _2">I am in good terms</span></p><p class=" _1" style="text-align: right;"></p><p class=" _1" style="text-align: right;"><span class=" _2"></span></p><p class=" _1" style="text-align: right;"></p><p class=" _1" style="text-align: left;"><span class=" _2">This is a chart</span></p><table class=" _3 _4" id="A0" x0="1" x1="1" x2="1" x3="1" x4="1" x5="1" x6="1" x7="1" x8="1" x9="1" x10="1" x11="1"><colgroup><col style="width:20%"><col style="width:20%"><col style="width:20%"><col style="width:20%"><col style="width:20%"></colgroup><tbody><tr><td><p class=" _1" id="_GoBack" style="text-align: left;">1</p></td><td><p class=" _1" style="text-align: left;">2</p></td><td><p class=" _1" style="text-align: left;">4</p></td><td><p class=" _1" style="text-align: left;"></p></td><td><p class=" _1" style="text-align: left;"></p></td></tr><tr><td><p class=" _1" style="text-align: left;"></p></td><td><p class=" _1" style="text-align: left;"></p></td><td><p class=" _1" style="text-align: left;"></p></td><td><p class=" _1" style="text-align: left;"></p></td><td><p class=" _1" style="text-align: left;"></p></td></tr><tr><td><p class=" _1" style="text-align: left;"></p></td><td><p class=" _1" style="text-align: left;"></p></td><td><p class=" _1" style="text-align: left;"></p></td><td><p class=" _1" style="text-align: left;"></p></td><td><p class=" _1" style="text-align: left;"></p></td></tr><tr><td><p class=" _1" style="text-align: left;"></p></td><td><p class=" _1" style="text-align: left;"></p></td><td><p class=" _1" style="text-align: left;"></p></td><td><p class=" _1" style="text-align: left;"></p></td><td><p class=" _1" style="text-align: left;"></p></td></tr></tbody></table><p class=" _1" style="text-align: left;"></p></section></div>
+</body></html>

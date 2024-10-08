@@ -1,0 +1,203 @@
+
+First Name	Last Name	Title	Suffix	Nickname	Company	Job Title	Dept	Work Street Address	Work City	Work State	Work Zip	Work Country/Region	Work URL	Home Street Address	Home City	Home State	Home Zip	Home Country/Region	Home URL	Home Phone 1	Home Phone 2	Home Fax	Work Phone 1	Work Phone 2	Work Fax	Pager	Mobile Phone	Main Phone	Assistant Phone	Custom Phone 1	Custom Phone 2	Custom Phone 3	Custom Phone 4	Email Address 1	Email Address 2	Email Address 3	Email Address 4	Email Address 5	Email Address 6	Email Address 7	Email Address 8	Email Address 9	Email Address 10	Email Address 11	Email Address 12	Email Address 13	Instant Messaging 1	Instant Messaging 2	Instant Messaging 3	Instant Messaging 4	Instant Messaging 5	Instant Messaging 6	Instant Messaging 7	Instant Messaging 8	Instant Messaging 9	Instant Messaging 10	Instant Messaging 11	Instant Messaging 12	Instant Messaging 13	Custom 1	Custom 2	Custom 3	Custom 4	Custom 5	Custom 6	Custom 7	Custom 8	Custom date 1	Custom date 2	Spouse	Birthday	Anniversary	Notes	Age	Astrology sign	Bloodtype	Furigana Company Name	Furigana First Name	Furigana Last Name	Furigana Spouse Name	Interests	Furigana Home Address line 2	Furigana Home Postal Code
+acs-lin	fu-tyan																																	Fu-Tyan & Fu-mei <ftlfml@comcast.net>																																																		
+allegheny county																																		eBill-treasurer@alleghenycounty.us																																																		
+	allen-steve			allen-steve																														allensr@spoc.sp.dupont.com																																																		
+amis-eric																																		amisej@utrc.utc.com																																																		
+	balasz-anna			balasz-anna																														balazs@vms.cis.pitt.edu																																																		
+	balsara			balsara	univ ca; berkeley																													nbalsara@cchem.berkeley.edu																																							dept chem eng;berkeley; ca 94720											
+Barbara	Diecks																																	bdiecks@andrew.cmu.edu																																																		
+	barth			barth																			905-820-2017											howard.barth@gmail.com	nybarth@aol.com																																																	
+	becky-culyba					Director, Office of the Provost																												<rculyba@andrew.cmu.edu>																																																		
+	berry-jim			berry-jim																														jiberry@ibm.net																																																		
+	beth			beth																														ej09																																																		
+	birnboim-alma			birnboim-alma										110 West 94th Street, Apt. 1B New York, NY 10025																				birnbm@gmail.com	alma@birnboim.com																																																	
+Brenda	Chambers																																	brendac@andrew.cmu.edu																																																		
+	bridge-val			bridge-val																														vb0g+@andrew.cmu.edu																																																		
+	cheri			cheri																														chays@andrew.cmu.edu																																																		
+	chu-ben			chu-ben										8515 Costa Verde Blvd	San Diego	CA	92122			858-230-7086														BCHU@ccmail.sunysb.edu																																																		
+	chu-sung			chu-sung																														schu@herc.com																																																		
+	ciccarelli-dana			ciccarelli-dana																			261-2000											dana.ciccarelli@sheraton.com																																							Sheraton											
+	colby			colby																			814 863 3457 											rhc@plmsc.psu.edu																																																		
+	coleman			coleman																														bcoleman@jove.rutgers.edu																																							bcoleman@stokes.rutgers.edu											
+	contacos			contacos																			412-394-3173											phillip.s.contacos@wellsfargoadvisors.com																																																		
+	d-pps-edbrd			d-pps-edbrd																														+dist+~brendac/public/pps-edbrd@andrew.cmu.edu																																																		
+	debbie			debbie																			412-394-3141											deborah.l.sheehan@wfadvisors.com																																																		
+	doi			doi																														doi@rheo.t.u-tokyo.ac.jp																																							masao											
+	dollar			dollar																														customerservice@dollarbank.com																																																		
+	donovan-lange			donovan																														lange@chem.cmu.edu																																																		
+	doyle			doyle																														rep.doyle@mail.house.gov																																																		
+	eby-ron			eby-ron																														eby@polymer.uakron.edu																																																		
+	edna			edna																														edna@cmu.edu																																							Edna Jackson											
+	Eichenger			Eichenger																														bruce@msi.com																																																		
+	eisenberg-adi			eisenberg-adi																														adi.eisenberg@mcgill.ca																																																		
+	eisenberg-henryk			eisenberg-henryk																														bpeisenb@weizmann.weizmann.ac.il																																																		
+	Ellie Connelly																						EllieConnelly@comcast.net											EllieConnelly@comcast.net																																																		
+	elvis			elvis-nancy-maddox																770-386-6817							770-547-4689							<Elvis35@comcast.net>																																							814 Taylorsrville-Macedonia Rd.;Taylorsville; GA  30178											
+Elvis	Rush																																	elvis35@comcast.net																																																		
+	endnote			endnote																														endnote.1\rendnote.2																																																		
+fam-ash				fam-ash										32 Pine St   Apt 19 Norwalk,  CT    06854 Eric Meyer																				acolan88@gmail.com																																							ash6888@hotmail.com											
+fam-barbara-morgan																																		bkm50@hotmail.com																																																		
+fam-bill-tanya																				770-592-0657							770-841-6266							mstooth@bellsouth.net																																																		
+	fam-blazek			fam-blazek																														hjblazek@verizon.net																																																		
+	fam-candace			fam-candace																														crflatt@eiu.edu																																							candace flat; Candace Flatt											
+fam-carole																				1-217-942-6827														gummycarole@yahoo.com																																																		
+	fam-carolyn-flatt			fam-carolyn-flatt																														tcflat@pwr-net.coop																																																		
+fam-casey																																		teddyandcasey@yahoo.com																																																		
+fam-charles-sharpless																																		charlessharpless@gmail.com																																																		
+fam-chelsea																																		ccolangelo1@live.maryville.edu																																																		
+	fam-cheryl			fam																														caberry@comcast.net																																																		
+fam-colangelo-carmon																																		colangelo@wustl.edu																																																		
+	fam-colangelo-sue			fam-colangelo-sue										6364 Forsyth Blvd St Louis, MO 63105						314-659-8491							706-255-5835							szcola113@gmail.com																																																		
+fam-colleen																																		myponygirl6@yahoo.com																																																		
+	fam-cynthia-little			fam-cynthia-little																314-831-0207							314-922-4626							mrs.small@sbcglobal.net																																							ronald.little@sbcglobal.net for Ron											
+	fam-daniels			fam-daniels																														augiedoggie1937@yahoo.com 																																							Marilyn (Berry) Daniels											
+	fam-elizabethann-duhham			fam-elizabethann-duhham																														Mahnudyar@aol.com																																																		
+fam-hanna																																		hannaberry95@aol.com																																																		
+	fam-hipkins			fam-hipkins										266 Merrimon Ave Asheville, NC 28801-1218						1-828-225-6042														jrhipkins@yahoo.com																																																		
+	fam-jack-jean			fam-jack-jean																							810-280-6821 jack							john_montooth@att.net																																																		
+	fam-jennelle			fam-jennelle																														jblazek22@yahoo.com																																							Jennelle Blazek											
+	fam-jessica			fam-jessica										12 Moore Street Princeton NJ 08542 Oct 2015 Charles Sharpless																				jlcolang@gmail.com 																																																		
+	fam-joan			fam-joan																1-760-377-4418							1-760-793-5357							the4pops@iwvisp.com																																																		
+fam-jon																											512-694-2313																																																									
+	fam-judy			fam-judy										712 Perdew Ave.	Ridgecrest	CA	93555																	judy.dwyer@verizon.net																																							Judy Dwyer											
+	fam-kate			fam-kate										6051 W Cabanne Place Saint Louis, MO, 63112  (Sept 2013)																				kaitmauro@gmail.com	kjmauro@wustl.edu																																																	
+	fam-kevin			fam-kevin										130 Tollhouse Rd., Apt B-13	Greensburg	PA	15601			412-736-1199														kcmauro@yahoo.com																																																		
+	fam-kim			fam-kim																														kjousby2@aol.com																																																		
+fam-linda-shull		mike												Mike & Linda PO Box 72 Greenup,  IL   62428									217-923-3744				217-343-0327							plumber.shullo@gmail.com																																																		
+	fam-montooth-john			fam-montooth-john																														john_montooth@hotmail.com																																																		
+	fam-sandra													218 Stoney Spring Rd Hempfield Twp, PA   15601						412-837-5719							412-418-9290							sjmauro@yahoo.com																																																		
+fam-scott																																		scberry82@gmail.com																																																		
+																																		fblum@mst.edu																																																		
+fixman																																		mf@fibm.mfbl.colostate.edu																																																		
+	fuller-gerry			fuller-gerry																														GGF@RIO.STANFORD.EDU																																																		
+gaynor								Scott G. Gaynor, Ph.D.  The Dow Chemical Company  Core R&D - New Products  1702 Building Midland, MI 48674  Ph: (989) 638-1806  Fax: (989) 636-6454 E-mail: sggaynor@dow.com															(989) 638-1806											sggaynor@dow.com																																																		
+gcb-new year letter recipients																																		gcberry@andrew.cmu.edu																																																		
+gcberry					pdgg87kpfp896qf9v96fwb42m																																																																															
+gcberry					cmu								url							home tel			work tel		fax									gcberry@andrew.cmu.edu																																							notes1											
+	goldberg-walter			goldberg-walter																														goldburg@vms.cis.pitt.edu																																																		
+	grad-bruce			grad-bruce																														bruce.hager.b@bayer.com																																																		
+	grad-bui			grad-bui																														hbui@rd.us.loreal.com 																																							hbui@rd.us.loreal.com 											
+	grad-chen			grad-chen																														sam.chen@bp.com																																							Shean-Jer Chen;Castrol Technologies;Piscataway; NJ											
+	grad-diao.2																																	diaob@aol.com																																																		
+	grad-dror			grad-dror																														drormi2003@gmail.com																																							Michael Dror; Ph.D.											
+	grad-einaga-yoshiyuki			grad-einaga-yoshiyuki																														einaga@cc.nara-wu.ac.jp																																																		
+	grad-furukawa			grad-furukawa																														furukawa@cb.uga.edu																																																		
+	grad-hsin-hsing			grad-hsin-hsing																														tsaihh@ms23.hinet.net																																							Hsin-Hsing Tsai											
+	grad-kaatz			grad-kaatz																														kaatz@physics.unlv.edu																																																		
+	grad-liu			grad-liu																														PLIU@VNET.IBM.COM																																																		
+	grad-matsuoka			grad-matsuoka																														k_matsuoka@orc.jpo.co.jp																																							kmatsuoka@montellna. com											
+	grad-mattoussi			grad-mattoussi																														hedimat@MIT.EDU																																																		
+	grad-meitz			grad-meitz																														dwmeitz@mmm.com																																																		
+	grad-mohan			grad-mohan										5230 Skidaway Dr  Alpharetta, GA 30022-4578						(770) 667-9575			404-894-9348	800-533-7815			404-519-4172							mohan@mse.gatech.edu																																																		
+	grad-ohnuma			grad-ohnuma																														ohnuma@ccrws1.ccr.fukui-u.ac.jp																																							Center for Cooperative Research in Science & Technology											
+	grad-park			grad-park																														jungok22@yahoo.com																																																		
+	grad-pat													Wilmington, DE 19805 (302) 691-7158 Timmy Rabolt; Sarah Cotts						302-691-7159			302-695-9702		302-695-8207		301-388-9156							patricia.m.cotts-1@usa.dupont.com																																																		
+	grad-pat.2																																	cottspm@a1.esvax.umc.dupont.com																																																		
+	grad-savin			grad-savin																														savin@chem.umn.edu																																																		
+	grad-se			grad-se	Fukui Univ, Dept. Mater Sci & Eng																		81-776-27-8957											se@matse.u-fukui.ac.jp																																																		
+	grad-spencer			grad-spencer																														Cpspen@aol.com																																																		
+	grad-steve			grad-steve	Stephen Arehart																													stephen.arehart@hushmail.com																																							(412)665-9141											
+	grad-subbu			grad-subbu																														assubbu@ntu.edu.sg																																																		
+	grad-sudha			grad-sudha	Vijaykumar; Sudha																													sudha.vijaykumar@msanet.com																																																		
+	grad-taka			grad-taka																														c-taka@nda.ac.jp																																							Ministry of Defense											
+	grad-tan			grad-tan																														Zjtan@aol.com																																							ok as of 3 jan 2003											
+	grad-tsai													(600)Chia-Yee City, No.35, Hsin-Yeh West Road, Tel: (05)2356471 for (05)2857695																				tsaihh@ms23.hinet.net																																																		
+	grad-tsutsui			grad-tsutsui																														tsutsui_np1820@npc.nipponpaint.co.jp																																							Koichi and Satoko											
+	grad-wang			grad-wang																														wy2008@yahoo.com;yingwang@udel.edu																																																		
+	grad-wei-berk			grad-wei-berk																														mawenw1@mail.auburn.edu																																																		
+	grad-wong			grad-wong																														cwong@mmm.com																																				Rueyyun														
+	grad-yue			grad-yue																														joan_yue@hp-sandiego-om2.om.hp.com																																																		
+	graessley			graessley										2323 McDaniel Ave, Apt. 1119 Evanston, IL 602 ph. 1-847-424-115							1-847-424-1159													heleng34@gmail.com																																																		
+	green-mark			green-mark																			718-260-3177											mgreen@duke.poly.edu																																																		
+gretchen-beck																							8-5205											grm@andrew.cmu.edu																																																		
+grier-donna-steve																																		Donna.H.Grier@usa.dupont.com	scg40@aol.com																																																	
+	helpadvisor			helpadvisor																														it-help@cmu.edu																																																		
+																																		ir3245@cmu.edu																																																		
+	ispac-balke																			905-820-2017														stephen.balke@utoronto.ca																																																		
+	ispac-barth																																	howardbarth@gmail.com	howard.barth@gmail.com																																																	
+ispac-chang-taihyun					Pohang Univ																													tc@postech.edu.																																																		
+	ispac-chiantore				University of Torino,																		39-011-670-7558											oscar.chiantore@unito.it																																							Prof. Oscar Chiantore 											
+	ispac-dawkins																																	J.V.Dawkins@lboro.ac.uk																																																		
+	ispac-degroot							A. Willem deGroot The Dow Chemical Company 2301 Brazosport Blvd. B-1470 Building Door K Freeport, TX  77541															(979) 238-3306											awillem@dow.com													The Dow Chemical Company2301 Brazosport Blvd.B-1470 Building Door KFreeport, TX  77541(979) 238-3306																																					
+ispac-dlist																																		+dist+~gcberry/public/ispac.dl@andrew.cmu.edu																																																		
+	ispac-hadji																																	hadjichristidis@chem.uoa.gr																																																		
+ispac-hncheng					Southern Regional Research Center			USDA Agricultural Research Service 1100 Robert E. Lee Blvd. New Orleans, LA 70124 phone:  504-286-4450															504-286-4450				610-969-9882							hncheng100@gmail.com	hncheng100@yahoo.com																																																	
+	ispac-janca				Institute of Physics and Materials EngineeringFaculty of TechnologyTomas Bata University in Zlin			Institute of Physics and Materials Engineering Faculty of Technology Tomas Bata University in Zlin Nad Stranemi 4511 760 05 Zlin Czech Republic					http://web.ft.utb.cz/?id=0_2_1_2&iid=0&lang=en&type=0										420 576 035110		420 576 03514									jjanca@ft.utb.cz																																																		
+	ispac-kratovil																																	krat@imc.cas.cz																																																		
+	ispac-mays			ispac-mays	865-974-0747																						865 438 5599							jimmymays@utk.edu																																																		
+ispac-meehan																							liz.meehan@astrazeneca.com																																																													
+ispac-mori								Sadao Mori  4-8, Ibuka-cho, Nakamura-ku  Nagoya  453-0012  Japan						4-8, Ibuka-cho Nakamuramu Nagoya, Japan  453-0012																				sadaomori@msg.biglobe.ne.jp																																																		
+	ispac-munk			zdenka				5000 Gregory Pl West Lake Hills, TX 78746-5508  Petr Munk, Eva Munk, Zdenka Munk						Vinohradska 133, 13000 Prague 3, Czech Republic						512-327-0339	222-729-541													petr.munk@gmail.com																																																		
+ispac-pasch					university of stellenbosch	chair of polym characterizatin	chem & polym sci	Private Bag X1 7602 Matleland		South Africa										fax 27-21-808-4967			27-21-808-3367											hpasch@sun.ac.za																																																		
+ispac-reed								Dept Physics Tulane Univ															504-862-3185				504-330-2212							wreed@tulane.edu																																																		
+ispac-reed-alex																																		areed2@tulane.edu																																																		
+	ispac-rinaudo																																	marguerite.rinaudo@sfr.fr																																																		
+	ispac-sheree			ispac-sheree																			610-485-4633		610-485-9467		610-742-4981							Easinfo@aol.com																																																		
+	ispac-vancso																																	g.j.vancso@utwente.nl																																																		
+	jacobson			jacobson																														aj0z+@andrew.cmu.edu																																																		
+	jasnow-dave			jasnow-dave																														jasnow+@pitt.edu																																																		
+kelley-krapp																							klkrapp@andrew.cmu.edu																																																													
+kennedy-pat														935 Field Club Rd, Pittsburgh PA 15238						412-967-0406														pmk135@aol.com																																																		
+	kerwin			kerwin																														re.mm.kerwin@verizon.net																																																		
+kevin-m																											412-736-1199																																																									
+	kim-sung-chul			kim-sung-chul																														kimsc@sorak.kaist.ac.kr																																																		
+	kotaka-tadao			kotaka-tadao																														kotaka@toyota-ti.ac.jp																																																		
+kris																																		km3b@andrew.cmu.edu																																																		
+	krokosky			krokosky																														krokosky@windstream.net																																																		
+landel					wife:															831-459-6973			831-459-0540				831-212-4465							rflandel@cruzio.com																																																		
+	lanni-fred			lanni-fred																														fl72+@andrew.cmu.edu																																																		
+	larson			larson																														rlarson@engin.umich.edu																																																		
+	library-kathy			library-kathy																														bossick+@andrew.cmu.edu																																																		
+	library-requests			library-requests																														mi82+@andrew.cmu.edu																																																		
+	lodge-tim			lodge-tim																			612-625-0877											lodge@chem.umn.edu																																																		
+	lovinger-andy			lovinger-andy																														alovinge@nsf.gov																																																		
+magill-joyce														230 Beverly Rd. apt 130	Pittsburgh		15216																	jemagill@verizon.net																																																		
+magnuson																							412-372-2200											spmagnuson@yahoo.com																																																		
+	mary-merritt			may-merritt																							313-919-3290							mrobertson445@gmail.com																																							mary and merrit robertson											
+	masuda-h			masuda-hirohisa																														VZM00602@nifty.ne.jp																																																		
+mather					Syracuse Univ		Biomed Chem Eng																											ptmather@syr.edu																																																		
+	mays			mays																														jimmymays@utk.edu																																							jimmy mays											
+mccollough-rick																																		richard_mccullough@harvard.edu																																																		
+mcgarvey-pat																				989-725-8758							989-277-5125 							mcgarveypat2@gmail.com																																																		
+	mckenna			mckenna																														greg@micf.nist.gov																																																		
+mcs-dean																																		mcsdean@andrew.cmu.edu																																																		
+	meyer-tara			meyer-tara																														tmeyer+@pitt.edu																																																		
+mjb																																		mjberry1936@gmail.com																																																		
+	moore-jim			moore-jim																														moorej@rpi.edu																																																		
+	muthukumar			muthukumar																			413-577-1212											muthu@polysci.umass.edu																																																		
+Nancy	Rush																																	nlrush@yahoo.com																																																		
+	ngai			ngai																														ngai@estd.nrl.navy.mil																																							kia											
+	norisuye-takashi			norisuye-takashi																														norisuye@chem.sci.osaka-u.ac.jp																																																		
+	ohnuma-hidetaka			ohnuma-hidetaka																														ohnuma@poly.chem.es.osaka-u.ac.jp																																							july 2001											
+patty																							patusanfarm@gmail.com																																																													
+	percec			percec																														vxp5@po.cwru.edu																																																		
+	plazek			plazek																														plazek34@yahoo.com.																																																		
+poly-list					Missouri University of Science and Technology	Frank Blum <fblum@MST.EDU>	Missouri S&T																											poly@lists.mst.edu																																																		
+poly-web							Christine Landry-coltrain																											christine.landry-coltrain@kodak.com																																																		
+	pps-duhlev			pps-duhlev																														r.duhlev@elsevier.com																																							Rumen											
+pps-fitzbatrick-tom					global journals production	Team manager (elsevier)									san diego CA								1-619 699 6853	general manager 1.-619-699-6553										t.fitzpatrick@elsevier.com																																																		
+pps-medina-ines																																		I.Medina@elsevier.com																																																		
+pps-whitney																							619-699-6743											progpolymsci@Elsevier.com																										journal manager																								
+prog-																																		prog-poly-sci@andrew.cmu.edu																																																		
+rea	Rebecca Freeland																																	rf51@andrew.cmu.edu																																																		
+																																		reservations@nationalcar.com																																																		
+Richard	Hoogenboom																																	Richard.Hoogenboom@UGent.be																																																		
+	russell-tom			russell-tom																														russell@iskra.pse.umass.edu																																																		
+	russo-paul			russo-paul																														paul.russo@mse.gatech.edu																																																		
+seiber	cafe																																	seibercafe@gmail.com																																																		
+seth																																		esmiller@cmu.edu																																																		
+	sor-co			sor-co																														albertco@umche.maine.edu																																																		
+	stein			stein																														stein@ecs.umass.edu																																																		
+steve																																		stevenp@andrew.cmu.edu																																																		
+	takigawa			takigawa																														takigawa@rheogate.polym.kyoto-u.ac.jp																																							Toshikazu											
+	tirrell-david			tirrell-david																			(626) 395-3140											tirrell@caltech.edu																																																		
+	tirrell-matt			tirrell-matt																														tirrell@maroon.tc.umn.edu																																																		
+tom	ochs																																	tomochs.101@gmail.com																																																		
+univ prof business																																		gcberry@andrew.cmu.edu																																																		
+urban-marek					clemson univ																		 864-656-1155/0549											mareku@clemson.edu																																																		
+	vŽronique			maricic-charles																														veronique.maricic@erebus-cm.fr																																																		
+																																		veronique.maricic@erebus-cm.fr																																																		
+yokota-rikio																																		rikio yokota <yokota.rikio@jaxa.jp>																																																		
+	yoshizaki-takenao			yoshizaki-takenao																														yoshizaki@molsci.polym.kyoto-u.ac.jp																																							Takenao Yoshizaki <yoshizaki@molsci.polym.kyoto-u.ac.jp>											
+

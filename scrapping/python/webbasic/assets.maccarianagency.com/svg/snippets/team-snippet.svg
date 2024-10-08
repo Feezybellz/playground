@@ -1,0 +1,19 @@
+<svg width="160" height="160" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="160" height="160" fill="#F7F9FC"/>
+<rect x="10" y="27" width="139" height="108" rx="4" fill="white"/>
+<rect x="17.25" y="56.25" width="36.0195" height="34.5" rx="3.75" stroke="#1976D2" stroke-width="0.5"/>
+<rect x="17" y="94" width="30.7532" height="3" rx="1" fill="#EDF1F7"/>
+<rect x="17" y="101" width="21.1429" height="3" rx="1" fill="#F7F9FC"/>
+<ellipse cx="34.7662" cy="72" rx="5.76623" ry="6" fill="#1976D2"/>
+<path d="M24 90.5714C24 84.733 28.733 80 34.5714 80V80C40.4099 80 45.1429 84.733 45.1429 90.5714V91H24V90.5714Z" fill="#1976D2"/>
+<rect x="105.25" y="57.25" width="36.0195" height="34.5" rx="3.75" stroke="#EDF1F7" stroke-width="0.5"/>
+<rect x="105" y="95" width="30.7532" height="3" rx="1" fill="#EDF1F7"/>
+<rect x="105" y="102" width="21.1429" height="3" rx="1" fill="#F7F9FC"/>
+<ellipse cx="122.766" cy="73" rx="5.76623" ry="6" fill="#EDF1F7"/>
+<path d="M112 91.5714C112 85.733 116.733 81 122.571 81V81C128.41 81 133.143 85.733 133.143 91.5714V92H112V91.5714Z" fill="#EDF1F7"/>
+<rect x="61.25" y="56.25" width="36.0195" height="34.5" rx="3.75" stroke="#EDF1F7" stroke-width="0.5"/>
+<rect x="61" y="94" width="30.7532" height="3" rx="1" fill="#EDF1F7"/>
+<rect x="61" y="101" width="21.1429" height="3" rx="1" fill="#F7F9FC"/>
+<ellipse cx="78.7662" cy="72" rx="5.76623" ry="6" fill="#EDF1F7"/>
+<path d="M68 90.5714C68 84.733 72.733 80 78.5714 80V80C84.4099 80 89.1429 84.733 89.1429 90.5714V91H68V90.5714Z" fill="#EDF1F7"/>
+</svg>

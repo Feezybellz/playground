@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masonry Gallery</title>
+    <style>
+        #gallery {
+            position: relative;
+            width: 100%;
+        }
+        .gallery-item {
+            position: absolute;
+            transition: top 0.5s, left 0.5s;
+        }
+    </style>
+</head>
+<body>
+    <div id="gallery">
+        <!-- Gallery items go here -->
+        <div class="gallery-item"><img src="images/image4.png" alt="Image 1"></div>
+        <div class="gallery-item"><img src="images/image5.png" alt="Image 2"></div>
+        <!-- More items -->
+    </div>
+
+    <script type="text/javascript">
+      document.addEventListener('DOMContentLoaded', function () {
+      const gallery = document.getElementById('gallery');
+      const items = Array.from(gallery.getElementsByClassName('gallery-item'));
+      let columnWidth = 200; // Width of each column
+
+      // Function to position all items
+      function positionItems() {
+          let columnCount = Math.floor(gallery.offsetWidth / columnWidth);
+          let columns = new Array(columnCount).fill(0);
+
+          items.forEach(item => {
+              let minHeight = Math.min(...columns);
+              let index = columns.indexOf(minHeight);
+
+              item.style.width = `${columnWidth}px`;
+              item.style.top = `${minHeight}px`;
+              item.style.left = `${index * columnWidth}px`;
+
+              // Update column height
+              columns[index] += item.offsetHeight + 10; // 10px for margin
+          });
+
+          let maxHeight = Math.max(...columns);
+          gallery.style.height = `${maxHeight}px`;
+      }
+
+      // Check if all images are loaded
+      let imagesLoaded = 0;
+      items.forEach(item => {
+          const img = item.querySelector('img');
+          if (img.complete) {
+              imagesLoaded++;
+          } else {
+              img.addEventListener('load', () => {
+                  imagesLoaded++;
+                  if (imagesLoaded === items.length) {
+                      positionItems();
+                  }
+              });
+          }
+      });
+
+      // If all images are already loaded
+      if (imagesLoaded === items.length) {
+          positionItems();
+      }
+
+      // Re-position items on window resize
+      window.addEventListener('resize', positionItems);
+  });
+
+
+    </script>
+</body>
+</html>

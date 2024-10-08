@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Test</title>
+    <style media="screen">
+      .range-slider {
+          position: relative;
+          width: 100%;
+      }
+
+      .range-slider input[type=range] {
+          position: absolute;
+          pointer-events: none;
+          -webkit-appearance: none; /* For WebKit browsers */
+          appearance: none; /* Standard syntax */
+          z-index: 2;
+          height: 10px; /* Control the height of the slider */
+          width: 100%;
+           /*opacity: 1; Make the slider visible */
+          background: transparent;
+
+      }
+
+      .range-slider input[type=range]::-webkit-slider-thumb {
+          pointer-events: all;
+          width: 30px; /* Width of the thumb */
+          height: 30px; /* Height of the thumb */
+          border-radius: 15px;
+          background-color: red;
+          -webkit-appearance: none; /* For WebKit browsers */
+          appearance: none; /* Standard syntax */
+          z-index: 5;
+          margin-top: -10px; /* Adjusts the position to align with the track */
+      }
+
+      .range-slider input[type=range]:first-of-type::-webkit-slider-thumb {
+          background-color: blue;
+      }
+
+      .range-slider input[type=range]::-moz-range-thumb {
+          pointer-events: all;
+          width: 30px;
+          height: 30px;
+          border: 0;
+          border-radius: 15px;
+          background-color: red;
+      }
+
+      .range-slider input[type=range]:first-of-type::-moz-range-thumb {
+          background-color: blue;
+      }
+
+      /* Hide the default track for WebKit browsers */
+      .range-slider input[type=range]::-webkit-slider-runnable-track {
+          background: transparent;
+          border: none;
+      }
+
+      /* Hide the default track for Firefox */
+      .range-slider input[type=range]::-moz-range-track {
+          background: transparent;
+          border: none;
+      }
+
+      /* Optional: Add a custom track */
+      .range-slider .track {
+          position: absolute;
+          width: 100%;
+          height: 4px;
+          background: #ddd;
+          z-index: 1;
+          top: 13px; /* Adjust this value to align with the center of the thumbs */
+          border-radius: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="range-slider">
+        <input type="range" id="lower" class="lower" min="0" max="100" value="25">
+        <input type="range" id="upper" class="upper" min="0" max="100" value="75">
+    </div>
+
+    <script type="text/javascript">
+      let lowerSlider = document.getElementById('lower'),
+      upperSlider = document.getElementById('upper'),
+      lowerVal = parseInt(lowerSlider.value);
+      upperVal = parseInt(upperSlider.value);
+
+      upperSlider.oninput = function() {
+          lowerVal = parseInt(lowerSlider.value);
+          upperVal = parseInt(upperSlider.value);
+
+          if (upperVal < lowerVal + 4) {
+              lowerSlider.value = upperVal - 4;
+              if (lowerVal == lowerSlider.min) {
+                  upperSlider.value = 4;
+              }
+          }
+          console.log(upperSlider.value);
+      };
+
+      lowerSlider.oninput = function() {
+          lowerVal = parseInt(lowerSlider.value);
+          upperVal = parseInt(upperSlider.value);
+
+          if (lowerVal > upperVal - 4) {
+              upperSlider.value = lowerVal + 4;
+              if (upperVal == upperSlider.max) {
+                  lowerSlider.value = parseInt(upperSlider.max) - 4;
+
+              }
+          }
+          console.log(lowerSlider.value);
+
+      };
+
+    </script>
+  </body>
+</html>

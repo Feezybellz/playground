@@ -1,0 +1,16 @@
+<svg width="160" height="160" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="160" height="160" fill="#F7F9FC"/>
+<rect x="10" y="27" width="139" height="108" rx="4" fill="white"/>
+<rect x="26" y="57" width="50" height="20" rx="4" fill="#F7F9FC"/>
+<circle cx="36" cy="67" r="6" fill="white"/>
+<path d="M36 63L36.8981 65.7639H39.8042L37.4531 67.4721L38.3511 70.2361L36 68.5279L33.6489 70.2361L34.5469 67.4721L32.1958 65.7639H35.1019L36 63Z" fill="#1976D2"/>
+<rect x="83" y="57" width="50" height="20" rx="4" fill="#F7F9FC"/>
+<circle cx="93" cy="67" r="6" fill="white"/>
+<path d="M93 63L93.8981 65.7639H96.8042L94.4531 67.4721L95.3511 70.2361L93 68.5279L90.6489 70.2361L91.5469 67.4721L89.1958 65.7639H92.1019L93 63Z" fill="#1976D2"/>
+<rect x="26" y="86" width="50" height="20" rx="4" fill="#F7F9FC"/>
+<circle cx="36" cy="96" r="6" fill="white"/>
+<path d="M36 92L36.8981 94.7639H39.8042L37.4531 96.4721L38.3511 99.2361L36 97.5279L33.6489 99.2361L34.5469 96.4721L32.1958 94.7639H35.1019L36 92Z" fill="#1976D2"/>
+<rect x="83" y="86" width="50" height="20" rx="4" fill="#F7F9FC"/>
+<circle cx="93" cy="96" r="6" fill="white"/>
+<path d="M93 92L93.8981 94.7639H96.8042L94.4531 96.4721L95.3511 99.2361L93 97.5279L90.6489 99.2361L91.5469 96.4721L89.1958 94.7639H92.1019L93 92Z" fill="#1976D2"/>
+</svg>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+
+    <style media="screen">
+      .custom-select {
+    position: relative;
+    width: 200px;
+}
+
+.select-search {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.select-options {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-height: 150px;
+    overflow-y: auto;
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+    background: white;
+    border: 1px solid #ddd;
+    display: none; /* Hidden by default */
+}
+
+.select-options li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.select-options li:hover {
+    background-color: #f0f0f0;
+}
+
+    </style>
+  </head>
+  <body>
+    <div class="custom-select">
+        <input type="text" class="select-search" placeholder="Search...">
+        <ul class="select-options">
+            <!-- Options will be populated here -->
+        </ul>
+    </div>
+<script type="text/javascript">
+  document.addEventListener('DOMContentLoaded', function() {
+    // Data for the select options
+    const optionsData = ["Option 1", "Option 2", "Option 3",];
+
+    const searchInput = document.querySelector('.select-search');
+    const optionsList = document.querySelector('.select-options');
+
+    // Function to filter and show options
+    function filterOptions(query) {
+        const filteredOptions = optionsData.filter(option =>
+            option.toLowerCase().includes(query.toLowerCase())
+        );
+
+        optionsList.innerHTML = '';
+        filteredOptions.forEach(option => {
+            const li = document.createElement('li');
+            li.textContent = option;
+            li.addEventListener('click', () => selectOption(option));
+            optionsList.appendChild(li);
+        });
+
+        optionsList.style.display = 'block';
+    }
+
+    // Function to handle option selection
+    function selectOption(option) {
+        searchInput.value = option;
+        optionsList.style.display = 'none';
+    }
+
+    // Event listener for the search input
+    searchInput.addEventListener('input', () => {
+        const query = searchInput.value;
+        filterOptions(query);
+    });
+
+    // Optional: Hide options when clicking outside the custom select
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.custom-select')) {
+            optionsList.style.display = 'none';
+        }
+    });
+});
+
+</script>
+  </body>
+</html>

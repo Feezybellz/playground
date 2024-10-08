@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div class="range-slider" data-stepp="10" data-size="20" data-color="green" data-custom-range data-min="0" data-max="100">
+    </div>
+
+    <script type="text/javascript">
+
+      function customRange(){
+        return{
+
+          triggerEvent: function(element, eventName) {
+
+            var event; // The custom event that will be created
+            if(document.createEvent){
+                event = document.createEvent("HTMLEvents");
+                event.initEvent(eventName, true, true);
+                event.eventName = eventName;
+                element.dispatchEvent(event);
+            } else {
+                event = document.createEventObject();
+                event.eventName = "dataavailable";
+                event.eventType = "dataavailable";
+                element.fireEvent("on" + event.eventType, event);
+            }
+          },
+          init:function(){
+            const _This = this;
+            const ranges = Array.from(document.querySelectorAll("[data-custom-range]"));
+            console.log(ranges);
+            const customRangeStyle = document.createElement('style');
+
+            customRangeStyle.textContent = `
+                .range-slider {
+                    position: relative;
+                    width: 100%;
+                }
+
+                .range-slider input[type=range] {
+                    position: absolute;
+                    pointer-events: none;
+                    -webkit-appearance: none; /* For WebKit browsers */
+                    appearance: none; /* Standard syntax */
+                    /*z-index: 2;*/
+                    height: 10px; /* Control the height of the slider */
+                    width: 100%;
+                     /*opacity: 1; Make the slider visible */
+                    background: transparent;
+
+                }
+
+                .range-slider input[type=range]::-webkit-slider-thumb {
+                    pointer-events: all;
+                    width: 30px; /* Width of the thumb */
+                    height: 30px; /* Height of the thumb */
+                    border-radius: 50%;
+                    background-color: red;
+                    -webkit-appearance: none; /* For WebKit browsers */
+                    appearance: none; /* Standard syntax */
+                    z-index: 5;
+                    margin-top: -10px; /* Adjusts the position to align with the track */
+                }
+
+                .range-slider input[type=range]:first-of-type::-webkit-slider-thumb {
+                    background-color: blue;
+                }
+
+                .range-slider input[type=range]::-moz-range-thumb {
+                    pointer-events: all;
+                    width: 30px;
+                    height: 30px;
+                    border: 0;
+                    border-radius: 50%;
+                    background-color: red;
+                }
+
+                .range-slider input[type=range]:first-of-type::-moz-range-thumb {
+                    background-color: blue;
+                }
+
+                /* Hide the default track for WebKit browsers */
+                .range-slider input[type=range]::-webkit-slider-runnable-track {
+                    background: transparent;
+                    border: none;
+                }
+
+                /* Hide the default track for Firefox */
+                .range-slider input[type=range]::-moz-range-track {
+                    background: transparent;
+                    border: none;
+                }
+
+                /* Optional: Add a custom track */
+                .range-slider .custom-range-track {
+                    position: absolute;
+                    width: 100%;
+                    height: 4px;
+                    /*background: #ddd;*/
+                    z-index: 1;
+                    top: 13px; /* Adjust this value to align with the center of the thumbs */
+                    border-radius: 2px;
+                }
+              .range-slider .custom-range {
+                  position: absolute;
+                  height: 4px;
+                  background: #007bff; /* Active range color */
+                  /*z-index: 1;*/
+                  border-radius: 2px;
+              }
+
+              .range-slider .custom-range-track .right{
+                float:right;
+              }
+
+              .range-slider .custom-range-track .left{
+                float:left;
+              }
+
+            `;
+
+            document.head.appendChild(customRangeStyle);
+
+            ranges.forEach((range, i) => {
+              const checkRangeElement = range.querySelector(".custom-range");
+              const checkTrackRangeElement = range.querySelector(".custom-range-track");
+              const checkLowerRangeElement = range.querySelector("input#lower");
+              const checkUpperRangeElement = range.querySelector("input#upper");
+
+              const color = range.dataset.color;
+              const size = range.dataset.size;
+
+              const customClassName = `custom-range-${i}`;
+
+              const customClassRangeStyle = document.createElement('style');
+
+              customClassRangeStyle.textContent = `
+
+                .${customClassName} input[type=range]::-webkit-slider-thumb {
+                    background-color: ${color} !important;
+                }
+
+                .${customClassName} .custom-range{
+                  height: ${size/4}px !important;
+                }
+
+                .${customClassName} input[type=range]:first-of-type::-webkit-slider-thumb {
+                    background-color: ${color} !important;
+                }
+
+                .${customClassName} input[type=range]::-webkit-slider-thumb {
+                    width: ${size}px !important;
+                    height: ${size}px !important;
+                  }
+                .${customClassName} input[type=range]::-moz-range-thumb {
+                    width: ${size}px !important;
+                    height: ${size}px !important;
+                  }
+
+                  .${customClassName} .custom-range {
+                    background-color: ${color} !important;
+                    background: ${color} !important;
+
+                  }
+              `;
+
+              document.head.appendChild(customClassRangeStyle);
+
+              range.classList.add(customClassName);
+
+
+              let CustomRangeElem = null;
+              let trackRangeElem = null;
+              let lowerRangeElem = null;
+              let upperRangeElem = null;
+              const minRange = parseInt(range.dataset.min ?? 0);
+              const maxRange = parseInt(range.dataset.max ?? 100);
+              const step = parseInt(range.dataset.step ?? 1);
+
+              if ([null, undefined].includes(checkRangeElement)) {
+                CustomRangeElem = document.createElement('div');
+                CustomRangeElem.className = "custom-range"
+              }else{
+                CustomRangeElem = checkRangeElement;
+              }
+
+              if ([null, undefined].includes(checkTrackRangeElement)) {
+                trackRangeElem = document.createElement('div');
+                trackRangeElem.className = "custom-range-track"
+              }else{
+                trackRangeElem = checkRangeElement;
+              }
+
+              if ([null, undefined].includes(checkLowerRangeElement)) {
+                lowerRangeElem = document.createElement('input');
+              }else{
+                lowerRangeElem = checkRangeElement;
+              }
+
+
+              lowerRangeElem.setAttribute("type", "range");
+              lowerRangeElem.min = minRange
+              // lowerRangeElem.max = maxRange - step;
+              lowerRangeElem.value = minRange
+
+              if ([null, undefined].includes(checkUpperRangeElement)) {
+                upperRangeElem = document.createElement('input');
+              }else{
+                upperRangeElem = checkRangeElement;
+              }
+
+
+              upperRangeElem.setAttribute("type", "range");
+              // upperRangeElem.min = minRange + step;
+              upperRangeElem.max = maxRange
+              upperRangeElem.value = maxRange;
+
+              const _CustomRangeElem = CustomRangeElem;
+              const _UpperRangeElem = upperRangeElem;
+              const _LowerRangeElem = lowerRangeElem;
+              const _TrackRangeElem = trackRangeElem;
+
+
+
+
+                function updateRange() {
+                  const lowerVal = parseInt(_LowerRangeElem.value);
+                  const upperVal = parseInt(_UpperRangeElem.value);
+
+                  // console.log(lowerVal, '--', upperVal, "", );
+                  // console.log(minRange, '--', upperVal, "", );
+
+                  const percentLower = (((lowerVal - minRange) / maxRange) * 100);
+                  const percentUpper = (((upperVal) / maxRange) * 100);
+
+                  console.log(percentLower, percentUpper);
+
+                  range.dataset.customRangeMax = _UpperRangeElem.value;
+                  range.dataset.customRangeMin = _LowerRangeElem.value;
+
+                  // Update the range element's style
+                  // const _CustomRangeElem = document.querySelector('.range-slider .range');
+                  _CustomRangeElem.style.left = `${percentLower}%`;
+                  _CustomRangeElem.style.width = `${percentUpper - percentLower}%`;
+                  _TrackRangeElem.innerHTML = `<span class="left">${_LowerRangeElem.value}</span> <span class="right">${_UpperRangeElem.value}</span>`;
+              }
+
+
+              _LowerRangeElem.oninput = function() {
+                  lowerVal = parseInt(_LowerRangeElem.value);
+                  upperVal = parseInt(_UpperRangeElem.value);
+
+                  _This.triggerEvent(range, 'change');
+
+                  if (lowerVal > upperVal - step) {
+                      _UpperRangeElem.value = lowerVal + step;
+                      if (upperVal == _UpperRangeElem.max) {
+                          _LowerRangeElem.value = parseInt(_UpperRangeElem.max) - step;
+                      }
+                  }
+
+                  updateRange(); // Update the range element
+
+              };
+
+
+              _UpperRangeElem.oninput = function() {
+                  lowerVal = parseInt(_LowerRangeElem.value);
+                  upperVal = parseInt(_UpperRangeElem.value);
+
+                  _This.triggerEvent(range, 'change');
+
+
+                  if (upperVal < lowerVal + (minRange + step)) {
+                      _LowerRangeElem.value = upperVal - (minRange + step);
+                      if (lowerVal == _LowerRangeElem.min) {
+                          _UpperRangeElem.value = minRange + step;
+                      }
+                  }
+                  updateRange(); // Update the range element
+              };
+
+              updateRange(); // Update the range element
+
+
+              range.appendChild(_CustomRangeElem);
+              range.appendChild(_UpperRangeElem);
+              range.appendChild(_LowerRangeElem);
+              range.appendChild(_TrackRangeElem);
+
+            });
+
+
+
+          },
+
+        }
+      }
+
+      customRange().init();
+
+      document.querySelector('[data-custom-range]').addEventListener('change', function(evt){
+        console.log(evt.currentTarget.dataset);
+      });
+    </script>
+  </body>
+</html>
