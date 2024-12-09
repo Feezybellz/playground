@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Screen and Camera Recorder</title>
     <style media="screen">
       /* style.css */
@@ -16,104 +16,163 @@
         width: 45%;
         border: 1px solid black;
       }
-
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
+      <div class=""></div>
       <div class="">
-
+        <input type="checkbox" id="useAudio" name="" value="" /> Use Audio
+        <input type="checkbox" id="useCamera" name="" value="" /> Use Camera
       </div>
-      <div class="">
-        <input type="checkbox" id="useAudio" name="" value=""> Use Audio
-        <input type="checkbox" id="useCamera" name="" value=""> Use Camera
+      <button id="startBtn">Start Recording</button>
+      <button id="stopBtn" disabled>Stop Recording</button>
+      <div class="video-container">
+        <video id="cameraPreview" autoplay muted></video>
+        <video id="screenPreview" controls></video>
       </div>
-        <button id="startBtn">Start Recording</button>
-        <button id="stopBtn" disabled>Stop Recording</button>
-        <div class="video-container">
-            <video id="cameraPreview" autoplay muted></video>
-            <video id="screenPreview" controls></video>
-        </div>
     </div>
     <script type="text/javascript">
-    // script.js
-    let mediaRecorder;
-    let recordedChunks = [];
-    let cameraStream = null;
+      // script.js
+      let mediaRecorder;
+      let recordedChunks = [];
+      let cameraStream = null;
+      let recognition;
+      let transcript = "";
+      let fullTranscript = ""; // Global variable to store the complete transcript
 
-    document.getElementById('startBtn').addEventListener('click', async () => {
-      try {
-          const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+      function startTranscription() {
+        if (!("webkitSpeechRecognition" in window)) {
+          alert("Web Speech API is not supported in this browser.");
+          return;
+        }
 
-          //When the stop sharing is clicked
-          screenStream.getVideoTracks()[0].onended = function () {
-             // handleStop();
-             mediaRecorder.stop();
+        const recognition = new webkitSpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.lang = "en-US";
 
-           };
-           const cameraObject = {};
-           if (useAudio.checked === true) {
-             cameraObject.audio = true;
-           }
+        recognition.onresult = function (event) {
+          let transcript = ""; // Temporary variable for current result
 
-           if (useCamera.checked === true) {
-             cameraObject.video = true;
-           }
+          // Loop through results and check if each one is final
+          for (let i = event.resultIndex; i < event.results.length; i++) {
+            if (event.results[i].isFinal) {
+              // Append only final results to the full transcript
+              transcript += event.results[i][0].transcript;
+            }
+          }
 
-          cameraStream = await navigator.mediaDevices.getUserMedia(cameraObject);
+          // Append the final transcript to the global transcript and reset transcript
+          fullTranscript += transcript;
+          console.log(fullTranscript); // Log the full transcript for debugging
+        };
 
-          // Display the camera stream in the cameraPreview video element
-          document.getElementById('cameraPreview').srcObject = cameraStream;
+        recognition.onerror = function (event) {
+          console.error("Speech recognition error:", event.error);
 
-          const tracks = [...screenStream.getTracks(), ...cameraStream.getAudioTracks()];
-          const combinedStream = new MediaStream(tracks);
+          if (event.error === "no-speech") {
+            console.log("No speech detected. Restarting...");
+            recognition.stop();
+            setTimeout(() => recognition.start(), 1000);
+          }
+        };
 
-          mediaRecorder = new MediaRecorder(combinedStream);
-          mediaRecorder.ondataavailable = (event) => recordedChunks.push(event.data);
-          mediaRecorder.onstop = handleStop;
-          mediaRecorder.start();
-
-          document.getElementById('startBtn').disabled = true;
-          document.getElementById('stopBtn').disabled = false;
-      } catch (error) {
-          console.error('Error capturing media:', error);
+        recognition.start();
       }
-    });
 
-    document.getElementById('stopBtn').addEventListener('click', () => {
-      mediaRecorder.stop();
-      // handleStop();
-      // cameraStream.getTracks().forEach(track => track.stop()); // Stop the camera stream
-      // document.getElementById('startBtn').disabled = false;
-      // document.getElementById('stopBtn').disabled = true;
-    });
+      function stopTranscription() {
+        if (recognition) {
+          recognition.stop(); // Stop the recognition
+          console.log("Transcription stopped.");
+        }
+      }
 
-    function handleStop() {
+      document
+        .getElementById("startBtn")
+        .addEventListener("click", async () => {
+          try {
+            startTranscription();
+            const screenStream = await navigator.mediaDevices.getDisplayMedia({
+              video: true,
+            });
 
-      cameraStream.getTracks().forEach(track => track.stop()); // Stop the camera stream
-      document.getElementById('startBtn').disabled = false;
-      document.getElementById('stopBtn').disabled = true;
+            //When the stop sharing is clicked
+            screenStream.getVideoTracks()[0].onended = function () {
+              // handleStop();
+              mediaRecorder.stop();
+            };
+            const cameraObject = {};
+            if (useAudio.checked === true) {
+              cameraObject.audio = true;
+            }
 
-      const blob = new Blob(recordedChunks, { type: 'video/webm' });
-      recordedChunks = [];
+            if (useCamera.checked === true) {
+              cameraObject.video = true;
+            }
 
-      const url = URL.createObjectURL(blob);
-      document.getElementById('screenPreview').src = url;
+            cameraStream = await navigator.mediaDevices.getUserMedia(
+              cameraObject
+            );
 
-      // Reset the camera preview
-      document.getElementById('cameraPreview').srcObject = null;
+            // Display the camera stream in the cameraPreview video element
+            document.getElementById("cameraPreview").srcObject = cameraStream;
 
-      // To download the video file uncomment the following lines:
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'recording.webm';
-      a.click();
-    }
+            const tracks = [
+              ...screenStream.getTracks(),
+              ...cameraStream.getAudioTracks(),
+            ];
+            const combinedStream = new MediaStream(tracks);
 
-    // video.addEventListener("ended", () => {
-    //   recoder.stop();
-    // });
+            mediaRecorder = new MediaRecorder(combinedStream);
+            mediaRecorder.ondataavailable = function (event) {
+              recordedChunks.push(event.data);
+            };
+            mediaRecorder.onstop = handleStop;
+            mediaRecorder.start();
 
+            document.getElementById("startBtn").disabled = true;
+            document.getElementById("stopBtn").disabled = false;
+          } catch (error) {
+            console.error("Error capturing media:", error);
+          }
+        });
+
+      document.getElementById("stopBtn").addEventListener("click", () => {
+        mediaRecorder.stop();
+        // handleStop();
+        // cameraStream.getTracks().forEach(track => track.stop()); // Stop the camera stream
+        // document.getElementById('startBtn').disabled = false;
+        // document.getElementById('stopBtn').disabled = true;
+      });
+
+      function handleStop() {
+        stopTranscription();
+        console.log(fullTranscript);
+
+        cameraStream.getTracks().forEach((track) => track.stop()); // Stop the camera stream
+        document.getElementById("startBtn").disabled = false;
+        document.getElementById("stopBtn").disabled = true;
+
+        const blob = new Blob(recordedChunks, { type: "video/webm" });
+        recordedChunks = [];
+
+        const url = URL.createObjectURL(blob);
+        document.getElementById("screenPreview").src = url;
+
+        // Reset the camera preview
+        document.getElementById("cameraPreview").srcObject = null;
+
+        // To download the video file uncomment the following lines:
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "recording.webm";
+        a.click();
+      }
+
+      // video.addEventListener("ended", () => {
+      //   recoder.stop();
+      // });
     </script>
-</body>
+  </body>
 </html>

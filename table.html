@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RichTable Example</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Table Structure -->
+    <table id="example-table" border="1">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Age</th>
+          <th>Occupation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Alice</td>
+          <td>30</td>
+          <td>Engineer</td>
+        </tr>
+        <tr>
+          <td>Bob</td>
+          <td>25</td>
+          <td>Designer</td>
+        </tr>
+        <tr>
+          <td>Charlie</td>
+          <td>35</td>
+          <td>Teacher</td>
+        </tr>
+        <tr>
+          <td>Diana</td>
+          <td>28</td>
+          <td>Developer</td>
+        </tr>
+        <tr>
+          <td>Edward</td>
+          <td>40</td>
+          <td>Manager</td>
+        </tr>
+        <tr>
+          <td>Fiona</td>
+          <td>32</td>
+          <td>Architect</td>
+        </tr>
+        <tr>
+          <td>George</td>
+          <td>29</td>
+          <td>Doctor</td>
+        </tr>
+        <tr>
+          <td>Hannah</td>
+          <td>27</td>
+          <td>Lawyer</td>
+        </tr>
+        <tr>
+          <td>Ian</td>
+          <td>33</td>
+          <td>Chef</td>
+        </tr>
+        <tr>
+          <td>Jane</td>
+          <td>26</td>
+          <td>Writer</td>
+        </tr>
+        <tr>
+          <td>YY</td>
+          <td>26</td>
+          <td>Writer</td>
+        </tr>
+        <tr>
+          <td>ZZ</td>
+          <td>26</td>
+          <td>Writer</td>
+        </tr>
+        <!-- Add more rows as needed -->
+      </tbody>
+    </table>
+
+    <!-- Include RichTable Library -->
+
+    <script>
+      /**
+       * RichTable.js
+       * A feature-rich JavaScript library for enhancing HTML tables.
+       * Features: Search, Sort (Client-Side on Current Page), AJAX Pagination, Event Extensibility.
+       * Author: Your Name
+       * License: MIT
+       */
+
+      class RichTable {
+        /**
+         * Constructor to initialize the RichTable.
+         * @param {string | HTMLElement} table - The original table element or its ID.
+         * @param {Object} options - Configuration options for RichTable.
+         */
+        constructor(table, options = {}) {
+          // Initialize original table element
+          if (typeof table === "string") {
+            this.mainTable = document.getElementById(table);
+            if (!this.mainTable) {
+              throw new Error(`Table with ID "${table}" not found.`);
+            }
+          } else if (
+            table instanceof HTMLElement &&
+            table.tagName === "TABLE"
+          ) {
+            this.mainTable = table;
+          } else {
+            throw new Error("Invalid table element or ID.");
+          }
+
+          // Create a new table element
+          this.createClonedTable();
+
+          // Default options
+          const defaultOptions = {
+            search: true,
+            pagination: true,
+            rowsPerPage: 10,
+            sortable: true,
+            responsive: true,
+            ajaxPagination: false, // New option for AJAX-based pagination
+            ajaxOptions: {
+              url: "", // Endpoint to fetch data
+              method: "GET",
+              headers: {},
+              params: {}, // Additional parameters like search query, sort info, etc.
+              processData: (data) => data, // Function to process AJAX response
+            },
+            events: {},
+          };
+
+          this.options = { ...defaultOptions, ...options };
+          this.currentPage = 1;
+          this.sortConfig = { index: null, direction: "asc" };
+          this.currentSearchQuery = ""; // Initialize current search query
+
+          // Internal data arrays
+          this.originalData = [];
+          this.filteredData = [];
+
+          // Normalize events to ensure each is an array
+          this.normalizeEvents();
+
+          // Inject CSS styles into the DOM
+          this.injectStyles();
+
+          // Initialize the library
+          this.init();
+        }
+
+        /**
+         * Create a cloned table based on the original table.
+         */
+        createClonedTable() {
+          // Clone the main table structure without its rows
+          this.table = document.createElement("table");
+          this.table.innerHTML = this.mainTable.outerHTML;
+
+          // Assign a unique ID to the cloned table
+          this.table.id = `rich-table-clone-${Date.now()}`;
+
+          // Optionally, add classes for styling
+          this.table.classList.add("rich-table");
+
+          // Hide the original table
+          this.mainTable.style.display = "none";
+
+          // Insert the cloned table into a specified container or after the original table
+          const cloneContainer = document.getElementById("clone-container");
+          if (cloneContainer) {
+            cloneContainer.appendChild(this.table);
+          } else {
+            this.mainTable.parentNode.insertBefore(
+              this.table,
+              this.mainTable.nextSibling
+            );
+          }
+        }
+
+        /**
+         * Normalize the events object to ensure each event is an array of functions.
+         */
+        normalizeEvents() {
+          for (let event in this.options.events) {
+            if (typeof this.options.events[event] === "function") {
+              this.options.events[event] = [this.options.events[event]];
+            } else if (Array.isArray(this.options.events[event])) {
+              // Ensure all elements in the array are functions
+              this.options.events[event] = this.options.events[event].filter(
+                (fn) => typeof fn === "function"
+              );
+            } else {
+              // If not a function or array, initialize as an empty array
+              this.options.events[event] = [];
+            }
+          }
+        }
+
+        /**
+         * Injects necessary CSS styles into the DOM for RichTable.
+         */
+        injectStyles() {
+          // Check if the styles are already injected to prevent duplicates
+          if (document.getElementById("rich-table-styles")) {
+            return;
+          }
+
+          const styles = `
+                    /* RichTable Styles */
+
+                    .rich-table-container {
+                        width: 100%;
+                        overflow-x: auto;
+                        margin-bottom: 1em;
+                    }
+
+                    .rich-table-search {
+                        margin-bottom: 0.5em;
+                        display: flex;
+                        align-items: center;
+                        gap: 0.5em;
+                    }
+
+                    .rich-table-search input {
+                        padding: 0.5em;
+                        width: 200px;
+                        border: 1px solid #ccc;
+                        border-radius: 4px;
+                    }
+
+                    .rich-table-pagination {
+                        display: flex;
+                        align-items: center;
+                        justify-content: flex-end;
+                        gap: 0.5em;
+                        margin-top: 0.5em;
+                    }
+
+                    .rich-table-pagination button {
+                        padding: 0.5em 1em;
+                        border: none;
+                        background-color: #007BFF;
+                        color: white;
+                        border-radius: 4px;
+                        cursor: pointer;
+                        transition: background-color 0.3s ease;
+                    }
+
+                    .rich-table-pagination button:hover:not(:disabled) {
+                        background-color: #0056b3;
+                    }
+
+                    .rich-table-pagination button:disabled {
+                        background-color: #cccccc;
+                        cursor: not-allowed;
+                    }
+
+                    .rich-table-pagination .page-info {
+                        margin: 0 0.5em;
+                        font-weight: bold;
+                    }
+
+                    thead th {
+                        position: relative;
+                        user-select: none;
+                    }
+
+                    .sort-indicator {
+                        font-size: 0.8em;
+                        margin-left: 5px;
+                    }
+
+                    /* Responsive Design */
+                    @media (max-width: 600px) {
+                        .rich-table-search {
+                            flex-direction: column;
+                            align-items: flex-start;
+                        }
+
+                        .rich-table-pagination {
+                            flex-direction: column;
+                            align-items: flex-start;
+                        }
+
+                        .rich-table-pagination .page-info {
+                            margin: 0.5em 0;
+                        }
+                    }
+                `;
+
+          const styleSheet = document.createElement("style");
+          styleSheet.type = "text/css";
+          styleSheet.id = "rich-table-styles";
+          styleSheet.innerText = styles;
+          document.head.appendChild(styleSheet);
+        }
+
+        /**
+         * Initialize RichTable functionalities.
+         */
+        init() {
+          // Cache table data or fetch initial data via AJAX
+          if (this.options.ajaxPagination) {
+            this.fetchData(this.currentPage);
+          } else {
+            this.cacheTableData();
+            // Create and insert search input
+            if (this.options.search) {
+              this.createSearchInput();
+            }
+
+            // Add sortable functionality
+            if (this.options.sortable) {
+              this.makeColumnsSortable();
+            }
+
+            // Initialize pagination
+            if (this.options.pagination) {
+              this.createPaginationControls();
+              this.paginate(this.currentPage);
+            } else {
+              // Trigger initial data rendering
+              this.renderTable();
+            }
+
+            // Attach event listeners for dynamic row buttons (if any)
+            this.attachRowEventListeners();
+          }
+        }
+
+        /**
+         * Cache the original table data.
+         */
+        cacheTableData() {
+          const tbody = this.mainTable.querySelector("tbody");
+          if (!tbody) {
+            throw new Error("Table must have a <tbody> element.");
+          }
+
+          // Store only the cell data, not the row elements
+          this.originalData = Array.from(tbody.querySelectorAll("tr")).map(
+            (row) => {
+              return {
+                cells: Array.from(row.querySelectorAll("td")).map((td) =>
+                  td.textContent.trim()
+                ),
+              };
+            }
+          );
+
+          // Initialize filteredData with original data
+          this.filteredData = [...this.originalData];
+        }
+
+        /**
+         * Create and insert the search input above the table.
+         */
+        createSearchInput() {
+          const container = this.table.parentNode;
+          const searchWrapper = document.createElement("div");
+          searchWrapper.classList.add("rich-table-search");
+
+          const searchLabel = document.createElement("label");
+          searchLabel.setAttribute("for", `rich-table-search-${this.table.id}`);
+          searchLabel.textContent = "Search: ";
+
+          const searchInput = document.createElement("input");
+          searchInput.type = "text";
+          searchInput.id = `rich-table-search-${this.table.id}`;
+          searchInput.placeholder = "Type to search...";
+          searchInput.setAttribute(
+            "aria-label",
+            "Search through table content"
+          );
+
+          // Debounced event listener for search
+          const debouncedHandleSearch = this.debounce((e) => {
+            this.handleSearch(e.target.value);
+          }, 300); // 300ms debounce delay
+
+          searchInput.addEventListener(
+            "input",
+            debouncedHandleSearch.bind(this)
+          );
+
+          searchWrapper.appendChild(searchLabel);
+          searchWrapper.appendChild(searchInput);
+          container.insertBefore(searchWrapper, this.table);
+        }
+
+        /**
+         * Handle the search functionality.
+         * @param {string} query - The search query.
+         */
+        handleSearch(query) {
+          this.currentSearchQuery = query; // Store the current search query
+          query = query.toLowerCase();
+          if (query === "") {
+            this.filteredData = [...this.originalData];
+          } else {
+            this.filteredData = this.originalData.filter((row) =>
+              row.cells.some((cell) => cell.toLowerCase().includes(query))
+            );
+          }
+
+          // Reset sorting
+          this.sortConfig = { index: null, direction: "asc" };
+          this.updateSortIndicators();
+
+          // Reset to first page
+          if (this.options.pagination) {
+            this.currentPage = 1;
+            if (this.options.ajaxPagination) {
+              this.fetchData(this.currentPage);
+            } else {
+              this.paginate(this.currentPage);
+            }
+          } else {
+            this.renderTable();
+          }
+
+          // Trigger custom search event
+          this.triggerEvent("search", {
+            query,
+            filteredData: this.filteredData,
+          });
+        }
+
+        /**
+         * Make table columns sortable by clicking on headers.
+         */
+        makeColumnsSortable() {
+          const headers = this.table.querySelectorAll("thead th");
+          headers.forEach((header, index) => {
+            header.style.cursor = "pointer";
+            header.addEventListener("click", () => {
+              this.sortByColumn(index);
+            });
+
+            // Add sort indicators
+            const sortIndicator = document.createElement("span");
+            sortIndicator.classList.add("sort-indicator");
+            header.appendChild(sortIndicator);
+          });
+        }
+
+        /**
+         * Sort the table by a specific column (client-side on current page).
+         * @param {number} columnIndex - The index of the column to sort.
+         * @param {boolean} toggleDirection - Whether to toggle the sort direction.
+         */
+        sortByColumn(columnIndex, toggleDirection = true) {
+          if (toggleDirection) {
+            if (this.sortConfig.index === columnIndex) {
+              // Toggle sort direction
+              this.sortConfig.direction =
+                this.sortConfig.direction === "asc" ? "desc" : "asc";
+            } else {
+              this.sortConfig.index = columnIndex;
+              this.sortConfig.direction = "asc";
+            }
+          } else {
+            // Do not toggle; maintain current direction
+            if (this.sortConfig.index !== columnIndex) {
+              this.sortConfig.index = columnIndex;
+              this.sortConfig.direction = "asc";
+            }
+          }
+
+          const directionMultiplier =
+            this.sortConfig.direction === "asc" ? 1 : -1;
+
+          // Sort the filteredData array
+          this.filteredData.sort((a, b) => {
+            const cellA = a.cells[columnIndex].toLowerCase();
+            const cellB = b.cells[columnIndex].toLowerCase();
+
+            if (cellA < cellB) return -1 * directionMultiplier;
+            if (cellA > cellB) return 1 * directionMultiplier;
+            return 0;
+          });
+
+          // Update sort indicators
+          this.updateSortIndicators();
+
+          // Re-render the table based on sorting
+          if (this.options.ajaxPagination) {
+            this.renderTable(this.currentPageData);
+          } else {
+            if (this.options.pagination) {
+              this.paginate(this.currentPage);
+            } else {
+              this.renderTable();
+            }
+          }
+
+          // Trigger custom sort event
+          this.triggerEvent("sort", {
+            columnIndex,
+            direction: this.sortConfig.direction,
+          });
+        }
+
+        /**
+         * Update sort indicators on table headers.
+         */
+        updateSortIndicators() {
+          const headers = this.table.querySelectorAll("thead th");
+          headers.forEach((header, index) => {
+            const indicator = header.querySelector(".sort-indicator");
+            if (index === this.sortConfig.index) {
+              indicator.textContent =
+                this.sortConfig.direction === "asc" ? "▲" : "▼";
+            } else {
+              indicator.textContent = "";
+            }
+          });
+        }
+
+        /**
+         * Create pagination controls below the table.
+         */
+        createPaginationControls() {
+          const container = this.table.parentNode;
+          const paginationWrapper = document.createElement("div");
+          paginationWrapper.classList.add("rich-table-pagination");
+
+          const prevButton = document.createElement("button");
+          prevButton.textContent = "Prev";
+          prevButton.disabled = true;
+          prevButton.setAttribute("aria-label", "Previous Page");
+          prevButton.addEventListener("click", () => {
+            if (this.currentPage > 1) {
+              this.paginate(this.currentPage - 1);
+            }
+          });
+
+          const nextButton = document.createElement("button");
+          nextButton.textContent = "Next";
+          nextButton.setAttribute("aria-label", "Next Page");
+          nextButton.addEventListener("click", () => {
+            const totalPages = this.getTotalPages();
+            if (this.currentPage < totalPages) {
+              this.paginate(this.currentPage + 1);
+            }
+          });
+
+          const pageInfo = document.createElement("span");
+          pageInfo.classList.add("page-info");
+
+          paginationWrapper.appendChild(prevButton);
+          paginationWrapper.appendChild(pageInfo);
+          paginationWrapper.appendChild(nextButton);
+          container.appendChild(paginationWrapper);
+
+          this.pagination = {
+            wrapper: paginationWrapper,
+            prevButton,
+            nextButton,
+            pageInfo,
+          };
+        }
+
+        /**
+         * Calculate the total number of pages.
+         * @returns {number} Total pages.
+         */
+        getTotalPages() {
+          if (this.options.ajaxPagination) {
+            return this.totalPages || 1; // totalPages should be set after AJAX response
+          }
+          return (
+            Math.ceil(this.filteredData.length / this.options.rowsPerPage) || 1
+          );
+        }
+
+        /**
+         * Paginate the table data.
+         * @param {number} page - The page number to display.
+         */
+        paginate(page) {
+          if (this.options.ajaxPagination) {
+            this.fetchData(page);
+          } else {
+            const totalPages = this.getTotalPages();
+            if (page < 1 || page > totalPages) return;
+
+            this.currentPage = page;
+            const start = (page - 1) * this.options.rowsPerPage;
+            const end = start + this.options.rowsPerPage;
+            const paginatedData = this.filteredData.slice(start, end);
+
+            this.renderTable(paginatedData);
+            this.updatePaginationControls(totalPages);
+
+            // Trigger custom paginate event
+            this.triggerEvent("paginate", {
+              currentPage: this.currentPage,
+              totalPages,
+            });
+          }
+        }
+
+        /**
+         * Update the state of pagination controls.
+         * @param {number} totalPages - The total number of pages.
+         */
+        updatePaginationControls(totalPages) {
+          if (!this.options.pagination || !this.pagination) return;
+
+          this.pagination.pageInfo.textContent = ` Page ${this.currentPage} of ${totalPages} `;
+
+          this.pagination.prevButton.disabled = this.currentPage === 1;
+          this.pagination.nextButton.disabled = this.currentPage === totalPages;
+        }
+
+        /**
+         * Render the table with the provided data.
+         * @param {Array} data - Array of row data objects to render.
+         */
+        renderTable(data = this.filteredData) {
+          const tbody = this.table.querySelector("tbody");
+          tbody.innerHTML = ""; // Clear existing rows
+
+          data.forEach((rowData) => {
+            const newRow = document.createElement("tr");
+            rowData.cells.forEach((cellData) => {
+              const td = document.createElement("td");
+              td.textContent = cellData;
+              newRow.appendChild(td);
+            });
+            tbody.appendChild(newRow);
+          });
+        }
+
+        /**
+         * Get the current state of the table data.
+         * @returns {Object} The current state including filteredData, sortConfig, and currentPage.
+         */
+        getState() {
+          return {
+            filteredData: this.filteredData,
+            sortConfig: this.sortConfig,
+            currentPage: this.currentPage,
+          };
+        }
+
+        /**
+         * Attach a custom event listener.
+         * @param {string} event - The event name.
+         * @param {Function} callback - The callback function.
+         */
+        on(event, callback) {
+          if (!this.options.events[event]) {
+            this.options.events[event] = [];
+          }
+          this.options.events[event].push(callback);
+        }
+
+        /**
+         * Trigger a custom event with data.
+         * @param {string} event - The event name.
+         * @param {Object} data - Data to pass to the event listeners.
+         */
+        triggerEvent(event, data) {
+          if (this.options.events[event]) {
+            this.options.events[event].forEach((callback) => callback(data));
+          }
+        }
+
+        /**
+         * Debounce function to limit the rate at which a function can fire.
+         * @param {Function} func - The function to debounce.
+         * @param {number} wait - The debounce delay in milliseconds.
+         * @returns {Function} - The debounced function.
+         */
+        debounce(func, wait) {
+          let timeout;
+          return function (...args) {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(this, args), wait);
+          };
+        }
+
+        /**
+         * Add a new row to the table.
+         * @param {Array} cells - An array of cell data.
+         */
+        addRow(cells) {
+          // Add to originalData
+          const rowData = {
+            cells: cells.map((cell) => cell.toString()),
+          };
+          this.originalData.push(rowData);
+
+          // Apply current search filter
+          if (this.currentSearchQuery) {
+            const matches = rowData.cells.some((cell) =>
+              cell.toLowerCase().includes(this.currentSearchQuery.toLowerCase())
+            );
+            if (matches) {
+              this.filteredData.push(rowData);
+            }
+          } else {
+            this.filteredData.push(rowData);
+          }
+
+          // Apply current sort
+          if (this.sortConfig.index !== null) {
+            const columnIndex = this.sortConfig.index;
+            const directionMultiplier =
+              this.sortConfig.direction === "asc" ? 1 : -1;
+
+            this.filteredData.sort((a, b) => {
+              const cellA = a.cells[columnIndex].toLowerCase();
+              const cellB = b.cells[columnIndex].toLowerCase();
+
+              if (cellA < cellB) return -1 * directionMultiplier;
+              if (cellA > cellB) return 1 * directionMultiplier;
+              return 0;
+            });
+
+            this.updateSortIndicators();
+          }
+
+          // Re-render the table based on current page and pagination
+          if (this.options.pagination) {
+            this.paginate(this.currentPage);
+          } else {
+            this.renderTable();
+          }
+
+          // Trigger custom update event
+          this.triggerEvent("update", {
+            filteredData: this.filteredData,
+            sortConfig: this.sortConfig,
+            currentPage: this.currentPage,
+          });
+        }
+
+        /**
+         * Remove a row from the table based on a unique identifier or row index.
+         * @param {number} rowIndex - The index of the row to remove.
+         */
+        removeRow(rowIndex) {
+          if (rowIndex < 0 || rowIndex >= this.originalData.length) {
+            console.warn("Invalid row index.");
+            return;
+          }
+
+          // Remove the row from the original data
+          this.originalData.splice(rowIndex, 1);
+
+          // Apply current search filter
+          if (this.currentSearchQuery) {
+            this.filteredData = this.originalData.filter((row) =>
+              row.cells.some((cell) =>
+                cell
+                  .toLowerCase()
+                  .includes(this.currentSearchQuery.toLowerCase())
+              )
+            );
+          } else {
+            this.filteredData = [...this.originalData];
+          }
+
+          // Re-apply sorting if active
+          if (this.sortConfig.index !== null) {
+            this.sortByColumn(this.sortConfig.index, false); // false to prevent toggling direction
+          }
+
+          // Re-render the table based on current page and pagination
+          if (this.options.pagination) {
+            const totalPages = this.getTotalPages();
+            if (this.currentPage > totalPages) {
+              this.currentPage = totalPages;
+            }
+            this.paginate(this.currentPage);
+          } else {
+            this.renderTable();
+          }
+
+          // Trigger custom update event
+          this.triggerEvent("update", {
+            filteredData: this.filteredData,
+            sortConfig: this.sortConfig,
+            currentPage: this.currentPage,
+          });
+        }
+
+        /**
+         * Display an error message within the UI.
+         * @param {string} message - The error message to display.
+         */
+        displayError(message) {
+          let errorDiv =
+            this.table.parentNode.querySelector(".rich-table-error");
+          if (!errorDiv) {
+            errorDiv = document.createElement("div");
+            errorDiv.classList.add("rich-table-error");
+            errorDiv.style.color = "red";
+            errorDiv.style.marginTop = "1em";
+            this.table.parentNode.appendChild(errorDiv);
+          }
+          errorDiv.textContent = message;
+        }
+
+        /**
+         * Update the table data by re-caching and re-rendering.
+         */
+        update() {
+          // Re-cache the original data from mainTable
+          this.cacheTableData();
+
+          if (this.options.ajaxPagination) {
+            // For AJAX pagination, re-fetch data for the current page
+            this.fetchData(this.currentPage);
+          } else {
+            // Re-render the table based on current filters, sort, and pagination
+            if (this.currentSearchQuery) {
+              this.handleSearch(this.currentSearchQuery);
+            } else {
+              this.filteredData = [...this.originalData];
+              // Reset sorting
+              this.sortConfig = { index: null, direction: "asc" };
+              this.updateSortIndicators();
+            }
+
+            // Re-apply sorting if active
+            if (this.sortConfig.index !== null) {
+              this.sortByColumn(this.sortConfig.index, false); // false to prevent toggling direction
+            }
+
+            // Re-apply pagination
+            if (this.options.pagination) {
+              this.paginate(this.currentPage);
+            } else {
+              this.renderTable();
+            }
+
+            // Trigger custom update event
+            this.triggerEvent("update", {
+              filteredData: this.filteredData,
+              sortConfig: this.sortConfig,
+              currentPage: this.currentPage,
+            });
+          }
+        }
+
+        /**
+         * Fetch data for a specific page via AJAX.
+         * @param {number} page - The page number to fetch.
+         */
+        fetchData(page) {
+          const { url, method, headers, params, processData } =
+            this.options.ajaxOptions;
+
+          if (!url) {
+            throw new Error(
+              "AJAX Pagination is enabled but no URL is provided in ajaxOptions."
+            );
+          }
+
+          // Prepare query parameters
+          const queryParams = {
+            ...params,
+            page,
+            rowsPerPage: this.options.rowsPerPage,
+          };
+
+          // If a search query exists, include it in the parameters
+          if (this.currentSearchQuery) {
+            queryParams.search = this.currentSearchQuery;
+          }
+
+          // If sorting is active, include sort info
+          if (this.sortConfig.index !== null) {
+            queryParams.sortBy = this.sortConfig.index;
+            queryParams.sortDirection = this.sortConfig.direction;
+          }
+
+          // Build the query string
+          const queryString = new URLSearchParams(queryParams).toString();
+          const fetchUrl = `${url}?${queryString}`;
+
+          // Make the AJAX request
+          fetch(fetchUrl, {
+            method,
+            headers,
+          })
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error(
+                  `Network response was not ok (${response.status})`
+                );
+              }
+              return response.json();
+            })
+            .then((data) => {
+              // Process the data using the provided processData function
+              const processedData = processData(data);
+
+              // Expecting processedData to have:
+              // - rows: Array of row data objects { cells: [...] }
+              // - totalPages: Number indicating total pages
+              if (
+                !processedData.rows ||
+                typeof processedData.totalPages !== "number"
+              ) {
+                throw new Error(
+                  "Invalid data format received from AJAX response."
+                );
+              }
+
+              this.filteredData = processedData.rows;
+              this.totalPages = processedData.totalPages;
+              this.currentPage = page;
+
+              // Re-render the table
+              this.renderTable(this.filteredData);
+              this.updatePaginationControls(this.totalPages);
+
+              // Trigger custom paginate event
+              this.triggerEvent("paginate", {
+                currentPage: this.currentPage,
+                totalPages: this.totalPages,
+              });
+            })
+            .catch((error) => {
+              console.error("Error fetching data:", error);
+              // Trigger an error event
+              this.triggerEvent("error", { error });
+              this.displayError(`Error: ${error.message}`);
+            });
+        }
+
+        /**
+         * Attach event listeners for dynamic row buttons using event delegation.
+         */
+        attachRowEventListeners() {
+          const tbody = this.table.querySelector("tbody");
+          tbody.addEventListener("click", (e) => {
+            if (e.target && e.target.matches(".edit-button")) {
+              const row = e.target.closest("tr");
+              this.editRow(row);
+            } else if (e.target && e.target.matches(".delete-button")) {
+              const row = e.target.closest("tr");
+              this.deleteRow(row);
+            }
+          });
+        }
+
+        /**
+         * Example method to handle row editing.
+         * @param {HTMLElement} row - The table row to edit.
+         */
+        editRow(row) {
+          // Implement your edit logic here
+          alert("Edit functionality not implemented.");
+        }
+
+        /**
+         * Example method to handle row deletion.
+         * @param {HTMLElement} row - The table row to delete.
+         */
+        deleteRow(row) {
+          // Find the row index based on current filteredData
+          const rowIndex = Array.from(
+            this.table.querySelector("tbody").children
+          ).indexOf(row);
+          if (rowIndex !== -1) {
+            this.removeRow(rowIndex);
+          }
+        }
+      }
+    </script>
+
+    <script>
+      // Initialize RichTable after DOM content is loaded
+      document.addEventListener("DOMContentLoaded", () => {
+        const table = document.getElementById("example-table");
+        const richTable = new RichTable(table, {
+          search: true,
+          pagination: true,
+          rowsPerPage: 5,
+          sortable: true,
+          responsive: true,
+          ajaxPagination: false, // Client-side pagination
+          events: {
+            search: (data) => {
+              console.log("Search Event:", data);
+            },
+            sort: (data) => {
+              console.log("Sort Event:", data);
+            },
+            paginate: (data) => {
+              console.log("Paginate Event:", data);
+            },
+            update: (data) => {
+              console.log("Update Event:", data);
+            },
+          },
+        });
+        window.richTable = richTable; // Expose RichTable instance for testing
+
+        // Example of adding a custom event listener after initialization
+        richTable.on("search", (data) => {
+          // Custom logic after search
+          console.log(`User searched for: "${data.query}"`);
+        });
+
+        richTable.on("sort", (data) => {
+          // Custom logic after sort
+          console.log(
+            `Table sorted by column ${data.columnIndex} in ${data.direction} order.`
+          );
+        });
+
+        richTable.on("paginate", (data) => {
+          // Custom logic after pagination
+          console.log(`Current Page: ${data.currentPage} / ${data.totalPages}`);
+        });
+
+        richTable.on("update", (data) => {
+          // Custom logic after update
+          console.log("Table has been updated.");
+        });
+
+        // Button to add a new row externally and update RichTable
+        const addRowButton = document.createElement("button");
+        addRowButton.textContent = "Add New Row";
+        addRowButton.id = "add-row";
+        document.body.appendChild(addRowButton);
+
+        addRowButton.addEventListener("click", () => {
+          const tbody = table.querySelector("tbody");
+          const newRow = document.createElement("tr");
+          newRow.innerHTML = `<td>Kevin</td><td>31</td><td>Photographer</td>`;
+          tbody.appendChild(newRow);
+
+          // Call the update method to refresh RichTable
+          richTable.update();
+        });
+      });
+    </script>
+  </body>
+</html>
