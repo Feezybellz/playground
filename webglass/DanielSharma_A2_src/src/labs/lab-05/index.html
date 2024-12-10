@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="module" src="./main.js"></script>
+    <link rel="stylesheet" href="menu.css">
+    <title>Lab 5</title>
+</head>
+<body>
+    <canvas width="512" height="512"></canvas>
+
+    <form class="menu" id="controls">
+        <div class="group">
+            <p>
+                <label for="px"><i>x</i>-position</label>
+                <input type="range" id="px" min="-1" max="1" step="0.05" value="0.0">
+            </p>
+            <p>
+                <label for="py"><i>y</i>-position</label>
+                <input type="range" id="py" min="-1" max="1" step="0.05" value="0.0">
+            </p>
+            <p>
+                <label for="pz"><i>z</i>-position</label>
+                <input type="range" id="pz" min="-1" max="1" step="0.05" value="0.0">
+            </p>
+        </div>
+        <hr>
+        <div class="group">
+            <p>
+                <label for="rx"><i>x</i>-rotation</label>
+                <input type="range" id="rx" min="0" max="360" step="1" value="0">
+            </p>
+            <p>
+                <label for="ry"><i>y</i>-rotation</label>
+                <input type="range" id="ry" min="0" max="360" step="1" value="0">
+            </p>
+            <p>
+                <label for="rz"><i>z</i>-rotation</label>
+                <input type="range" id="rz" min="0" max="360" step="1" value="0">
+            </p>
+        </div>
+        <hr>
+        <div class="group">
+            <p>
+                <label for="sx"><i>x</i>-scale</label>
+                <input type="range" id="sx" min="-2" max="2" step="0.1" value="1.0">
+            </p>
+            <p>
+                <label for="sy"><i>y</i>-scale</label>
+                <input type="range" id="sy" min="-2" max="2" step="0.1" value="1.0">
+            </p>
+            <p>
+                <label for="sz"><i>z</i>-scale</label>
+                <input type="range" id="sz" min="-2" max="2" step="0.1" value="1.0">
+            </p>
+        </div>
+        <button type="reset" id="reset">Reset</button>
+    </form>
+</body>
+</html>

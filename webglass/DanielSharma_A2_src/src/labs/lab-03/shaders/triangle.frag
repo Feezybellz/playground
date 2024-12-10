@@ -1,0 +1,12 @@
+#version 300 es
+
+precision mediump float;
+
+in vec3 vColor;
+
+out vec4 fColor;
+
+void main() {
+    // Use the colour passed from the vertex shader directly (after adding an alpha component):
+    fColor = vec4(vColor, 1.0);
+}

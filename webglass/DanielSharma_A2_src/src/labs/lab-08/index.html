@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="module" src="./main.js"></script>
+    <title>Lab 8</title>
+</head>
+<body>
+    <canvas width="512" height="512"></canvas>
+
+    <form class="menu" id="tex-menu">
+        <div class="group">
+            <p>
+                <input type="checkbox" id="rotate-x">
+                <label for="rotate-x">Rotate around <i>x</i></label>
+            </p>
+            <p>
+                <input type="checkbox" id="rotate-y">
+                <label for="rotate-y">Rotate around <i>y</i></label>
+            </p>
+            <p>
+                <input type="checkbox" id="rotate-z">
+                <label for="rotate-z">Rotate around <i>z</i></label>
+            </p>
+        </div>
+        <hr>
+        <div class="group">
+            <p>
+                <label for="tex-x-offset">Texture <i>x</i>-offset</label>
+                <input id="tex-x-offset" type="number" value="0">
+            </p>
+            <p>
+                <label for="tex-y-offset">Texture <i>y</i>-offset</label>
+                <input id="tex-y-offset" type="number" value="0">
+            </p>
+            <p>
+                <label for="tex-x-scale">Texture <i>x</i>-scale</label>
+                <input id="tex-x-scale" type="number" value="1">
+            </p>
+            <p>
+                <label for="tex-y-scale">Texture <i>y</i>-scale</label>
+                <input id="tex-y-scale" type="number" value="1">
+            </p>
+        </div>
+    </form>
+</body>
+</html>

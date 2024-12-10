@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebGL Hierarchical Scene</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.8.1/gl-matrix-min.js"></script>
+
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <h1>WebGL Hierarchical Scene</h1>
+    <div id="controls">
+      <div>
+        <label for="camera-select">Select Camera:</label>
+        <select id="camera-select">
+          <option value="0">Camera 1</option>
+          <option value="1">Camera 2</option>
+        </select>
+      </div>
+      <div>
+        <h3>Transformations</h3>
+        <label for="translate-x">Translate X:</label>
+        <input type="range" id="translate-x" min="-10" max="10" step="0.1" />
+        <label for="translate-y">Translate Y:</label>
+        <input type="range" id="translate-y" min="-10" max="10" step="0.1" />
+        <label for="translate-z">Translate Z:</label>
+        <input type="range" id="translate-z" min="-10" max="10" step="0.1" />
+      </div>
+      <div>
+        <h3>Camera Controls</h3>
+        <label for="camera-x">Camera X:</label>
+        <input type="range" id="camera-x" min="-10" max="10" step="0.1" />
+        <label for="camera-y">Camera Y:</label>
+        <input type="range" id="camera-y" min="-10" max="10" step="0.1" />
+        <label for="camera-z">Camera Z:</label>
+        <input type="range" id="camera-z" min="-10" max="10" step="0.1" />
+      </div>
+    </div>
+    <canvas id="webgl-canvas"></canvas>
+    <script id="vertex-shader" type="x-shader/x-vertex">
+      attribute vec3 aPosition;
+      uniform mat4 uModelViewMatrix;
+      uniform mat4 uProjectionMatrix;
+      void main() {
+          gl_Position = uProjectionMatrix * uModelViewMatrix * vec4(aPosition, 1.0);
+      }
+    </script>
+    <script id="fragment-shader" type="x-shader/x-fragment">
+      precision mediump float;
+      uniform vec4 uColor;
+      void main() {
+          gl_FragColor = uColor;
+      }
+    </script>
+
+    <script type="module" src="main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bedroom WebGL Scene</title>
+    <style>
+      canvas {
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="gl-canvas" width="800" height="600"></canvas>
+    <br />
+    <label for="table-chair-pos">Table and Chair Position:</label>
+    <input
+      type="range"
+      id="table-chair-pos"
+      min="-1"
+      max="1"
+      value="0"
+      step="0.01"
+    />
+    <br />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.8.1/gl-matrix-min.js"></script>
+    <script>
+      const canvas = document.getElementById("gl-canvas");
+      const gl = canvas.getContext("webgl");
+
+      if (!gl) {
+        alert("WebGL not supported!");
+      }
+
+      const vertexShaderSource = `
+            attribute vec3 aPosition;
+            uniform mat4 uModelViewMatrix;
+            uniform mat4 uProjectionMatrix;
+            void main() {
+                gl_Position = uProjectionMatrix * uModelViewMatrix * vec4(aPosition, 1.0);
+            }
+        `;
+
+      const fragmentShaderSource = `
+            precision mediump float;
+            uniform vec4 uColor;
+            void main() {
+                gl_FragColor = uColor;
+            }
+        `;
+
+      function createShader(gl, type, source) {
+        const shader = gl.createShader(type);
+        gl.shaderSource(shader, source);
+        gl.compileShader(shader);
+        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+          console.error(gl.getShaderInfoLog(shader));
+          gl.deleteShader(shader);
+          return null;
+        }
+        return shader;
+      }
+
+      const vertexShader = createShader(
+        gl,
+        gl.VERTEX_SHADER,
+        vertexShaderSource
+      );
+      const fragmentShader = createShader(
+        gl,
+        gl.FRAGMENT_SHADER,
+        fragmentShaderSource
+      );
+
+      const program = gl.createProgram();
+      gl.attachShader(program, vertexShader);
+      gl.attachShader(program, fragmentShader);
+      gl.linkProgram(program);
+
+      if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+        console.error(gl.getProgramInfoLog(program));
+      }
+
+      gl.useProgram(program);
+
+      const aPosition = gl.getAttribLocation(program, "aPosition");
+      const uModelViewMatrix = gl.getUniformLocation(
+        program,
+        "uModelViewMatrix"
+      );
+      const uProjectionMatrix = gl.getUniformLocation(
+        program,
+        "uProjectionMatrix"
+      );
+      const uColor = gl.getUniformLocation(program, "uColor");
+
+      const cubeVertices = new Float32Array([
+        -0.5,
+        -0.5,
+        0.5,
+        0.5,
+        -0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        -0.5,
+        0.5,
+        0.5, // Front face
+        -0.5,
+        -0.5,
+        -0.5,
+        -0.5,
+        0.5,
+        -0.5,
+        0.5,
+        0.5,
+        -0.5,
+        0.5,
+        -0.5,
+        -0.5, // Back face
+      ]);
+
+      const cubeBuffer = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, cubeBuffer);
+      gl.bufferData(gl.ARRAY_BUFFER, cubeVertices, gl.STATIC_DRAW);
+
+      function setMatrixUniforms(modelViewMatrix, projectionMatrix) {
+        gl.uniformMatrix4fv(uModelViewMatrix, false, modelViewMatrix);
+        gl.uniformMatrix4fv(uProjectionMatrix, false, projectionMatrix);
+      }
+
+      // Define positions for each element
+      const bedPosition = [0, 0, -7];
+      const tableChairGroupPosition = [-1, 0, -5];
+      const chairPosition = [1, 0, 0]; // Relative to table in group
+      const lampPosition = [-3, 2, -4];
+      const lampStandPosition = [-3, 0, -4];
+      const rugPosition = [0, -1.5, -6];
+      const windowPosition = [0, 4, -8];
+
+      const tableChairPosSlider = document.getElementById("table-chair-pos");
+      tableChairPosSlider.addEventListener("input", () => {
+        tableChairGroupPosition[0] = parseFloat(tableChairPosSlider.value) * 2;
+      });
+
+      function drawCube(color, position, scale) {
+        gl.bindBuffer(gl.ARRAY_BUFFER, cubeBuffer);
+        gl.vertexAttribPointer(aPosition, 3, gl.FLOAT, false, 0, 0);
+        gl.enableVertexAttribArray(aPosition);
+        gl.uniform4fv(uColor, color);
+
+        const modelViewMatrix = mat4.create();
+        mat4.translate(modelViewMatrix, modelViewMatrix, position);
+        mat4.scale(modelViewMatrix, modelViewMatrix, scale);
+        setMatrixUniforms(modelViewMatrix, projectionMatrix);
+
+        gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
+      }
+
+      const projectionMatrix = mat4.create();
+      mat4.perspective(
+        projectionMatrix,
+        Math.PI / 4,
+        canvas.width / canvas.height,
+        0.1,
+        100
+      );
+
+      function renderScene() {
+        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+        gl.enable(gl.DEPTH_TEST);
+
+        // Draw each object with its color and position
+        drawCube([0.6, 0.4, 0.2, 1.0], bedPosition, [3, 1, 2]); // Bed
+        drawCube(
+          [0.5, 0.3, 0.2, 1.0],
+          tableChairGroupPosition,
+          [1.5, 0.8, 1.5]
+        ); // Table
+        drawCube(
+          [0.3, 0.2, 0.1, 1.0],
+          [
+            tableChairGroupPosition[0] + chairPosition[0],
+            tableChairGroupPosition[1],
+            tableChairGroupPosition[2],
+          ],
+          [1, 1.5, 1]
+        ); // Chair
+        drawCube([1.0, 1.0, 0.0, 1.0], lampPosition, [0.5, 0.5, 0.5]); // Lamp
+        drawCube([0.6, 0.6, 0.6, 1.0], lampStandPosition, [0.5, 1.5, 0.5]); // Lamp Stand
+        drawCube([0.7, 0.3, 0.3, 1.0], rugPosition, [4, 0.1, 4]); // Rug
+        drawCube([0.5, 0.5, 0.9, 1.0], windowPosition, [3, 1, 0.1]); // Window
+
+        requestAnimationFrame(renderScene);
+      }
+
+      gl.clearColor(0.0, 0.0, 0.0, 1.0);
+      gl.enable(gl.DEPTH_TEST);
+      renderScene();
+    </script>
+  </body>
+</html>

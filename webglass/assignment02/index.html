@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebGL Scene</title>
+
+    <script type="module" src="./main.js"></script>
+
+    <style>
+      canvas {
+        border: 1px solid black;
+        display: block;
+        margin: 20px auto;
+      }
+      #controls {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+      }
+      label {
+        margin-right: 5px;
+      }
+      input[type="range"] {
+        margin-bottom: 10px;
+        width: 200px;
+      }
+      .d-flex {
+        display: flex;
+      }
+
+      .w-100 {
+        width: 100%;
+      }
+      .w-50 {
+        width: 50%;
+      }
+
+      input,
+      label {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="controls">
+      <h2>Camera Controls</h2>
+      <label for="cameraSelect">Select Camera:</label>
+      <select id="cameraSelect">
+        <option value="main">Main Camera</option>
+        <option value="pov">POV Camera</option>
+      </select>
+
+      <div class="d-flex w-100">
+        <div class="w-50">
+          <h3>Main Camera Position</h3>
+          <label for="xAxis">X:</label>
+          <input
+            type="range"
+            id="xAxis"
+            min="-10"
+            max="10"
+            step="0.1"
+            value="0"
+          />
+          <label for="yAxis">Y:</label>
+          <input
+            type="range"
+            id="yAxis"
+            min="-10"
+            max="10"
+            step="0.1"
+            value="3"
+          />
+          <label for="zAxis">Z:</label>
+          <input
+            type="range"
+            id="zAxis"
+            min="-20"
+            max="0"
+            step="0.1"
+            value="-7"
+          />
+
+          <h2>Left Nightstand Controls</h2>
+          <div class="control-group">
+            <label for="leftNightstandX">Move X:</label>
+            <input
+              id="leftNightstandX"
+              type="range"
+              min="-5"
+              max="5"
+              step="0.1"
+              value="4"
+            />
+          </div>
+          <div class="control-group">
+            <label for="leftNightstandZ">Move Z:</label>
+            <input
+              id="leftNightstandZ"
+              type="range"
+              min="-5"
+              max="5"
+              step="0.1"
+              value="2"
+            />
+          </div>
+
+          <div class="control-group">
+            <h2>Left Lamp Controls</h2>
+
+            <label for="leftLampX">Move X:</label>
+            <input
+              id="leftLampX"
+              type="range"
+              min="-5"
+              max="2"
+              step="0.1"
+              value="0"
+            />
+
+            <label for="leftLampY">Move Y:</label>
+            <input
+              id="leftLampY"
+              type="range"
+              min="-5"
+              max="5"
+              step="0.1"
+              value="2"
+            />
+
+            <label for="leftLampZ">Move Z:</label>
+            <input
+              id="leftLampZ"
+              type="range"
+              min="-5"
+              max="5"
+              step="0.1"
+              value="2"
+            />
+          </div>
+        </div>
+
+        <div class="w-50">
+          <h2>Furniture Group Controls (Chair & Table)</h2>
+          <div class="control-group">
+            <label for="furnitureX">Move X:</label>
+            <input id="furnitureX" type="range" max="7" step="0.1" value="0" />
+          </div>
+          <div class="control-group">
+            <label for="furnitureY">Move Y:</label>
+            <input id="furnitureY" type="range" max="5" step="0.1" value="0" />
+          </div>
+          <div class="control-group">
+            <label for="furnitureZ">Move Z:</label>
+            <input
+              id="furnitureZ"
+              type="range"
+              min="0.5"
+              max="5"
+              step="0.1"
+              value="0"
+            />
+          </div>
+          <div class="control-group">
+            <label for="furnitureRotationY">Rotate Y:</label>
+            <input
+              id="furnitureRotationY"
+              type="range"
+              min="0"
+              max="360"
+              step="1"
+              value="0"
+            />
+          </div>
+
+          <h2>Right Nightstand Controls</h2>
+          <div class="control-group">
+            <label for="rightNightstandX">Move X:</label>
+            <input
+              id="rightNightstandX"
+              type="range"
+              min="-5"
+              max="5"
+              step="0.1"
+              value="4"
+            />
+          </div>
+          <div class="control-group">
+            <label for="rightNightstandZ">Move Z:</label>
+            <input
+              id="rightNightstandZ"
+              type="range"
+              min="-5"
+              max="5"
+              step="0.1"
+              value="-2"
+            />
+          </div>
+
+          <div class="control-group">
+            <h2>Right Lamp Controls</h2>
+
+            <label for="rightLampX">Move X:</label>
+            <input
+              id="rightLampX"
+              type="range"
+              min="-5"
+              max="5"
+              step="0.1"
+              value="2"
+            />
+
+            <label for="rightLampY">Move Y:</label>
+            <input
+              id="rightLampY"
+              type="range"
+              min="-5"
+              max="5"
+              step="0.1"
+              value="2"
+            />
+
+            <label for="rightLampZ">Move Z:</label>
+            <input
+              id="rightLampZ"
+              type="range"
+              min="-5"
+              max="5"
+              step="0.1"
+              value="2"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <canvas width="800" height="600"></canvas>
+  </body>
+</html>
