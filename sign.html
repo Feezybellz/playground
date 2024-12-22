@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Signature App</title>
+    <style>
+      #canvas {
+        border: 1px solid black;
+        cursor: crosshair;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas" width="400" height="200"></canvas>
+    <br />
+    <button id="clear">Clear</button>
+    <button id="save">Save</button>
+
+    <script>
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+      let isDrawing = false;
+
+      // Mouse Events
+      canvas.addEventListener("mousedown", startDrawing);
+      canvas.addEventListener("mousemove", draw);
+      canvas.addEventListener("mouseup", stopDrawing);
+      canvas.addEventListener("mouseout", stopDrawing);
+
+      // Touch Events
+      canvas.addEventListener("touchstart", startDrawing);
+      canvas.addEventListener("touchmove", draw);
+      canvas.addEventListener("touchend", stopDrawing);
+      canvas.addEventListener("touchcancel", stopDrawing);
+
+      function getTouchPos(e) {
+        const touch = e.touches[0];
+        const rect = canvas.getBoundingClientRect();
+        return {
+          x: touch.clientX - rect.left,
+          y: touch.clientY - rect.top,
+        };
+      }
+
+      function startDrawing(e) {
+        e.preventDefault();
+        isDrawing = true;
+        const pos =
+          e.type === "touchstart"
+            ? getTouchPos(e)
+            : {
+                x: e.clientX - canvas.offsetLeft,
+                y: e.clientY - canvas.offsetTop,
+              };
+        ctx.beginPath();
+        ctx.moveTo(pos.x, pos.y);
+      }
+
+      function draw(e) {
+        e.preventDefault();
+        if (!isDrawing) return;
+        ctx.lineWidth = 2;
+        ctx.lineCap = "round";
+        ctx.strokeStyle = "black";
+
+        const pos =
+          e.type === "touchmove"
+            ? getTouchPos(e)
+            : {
+                x: e.clientX - canvas.offsetLeft,
+                y: e.clientY - canvas.offsetTop,
+              };
+
+        ctx.lineTo(pos.x, pos.y);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(pos.x, pos.y);
+      }
+
+      function stopDrawing() {
+        isDrawing = false;
+        ctx.beginPath();
+      }
+
+      const clearBtn = document.getElementById("clear");
+      clearBtn.addEventListener("click", () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      });
+
+      const saveBtn = document.getElementById("save");
+      saveBtn.addEventListener("click", () => {
+        const dataURL = canvas.toDataURL("image/png");
+        const link = document.createElement("a");
+        link.download = "signature.png";
+        link.href = dataURL;
+        link.click();
+      });
+
+      // Prevent default touch behaviors
+      canvas.addEventListener("touchstart", (e) => e.preventDefault(), {
+        passive: false,
+      });
+      canvas.addEventListener("touchmove", (e) => e.preventDefault(), {
+        passive: false,
+      });
+    </script>
+  </body>
+</html>

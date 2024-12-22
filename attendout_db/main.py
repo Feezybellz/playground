@@ -3,7 +3,7 @@ import os
 def split_large_sql(file_path, chunk_size, output_dir):
     """
     Splits a large SQL file with multiple INSERT statements into smaller chunks.
-    Ensures each chunk starts with a valid INSERT INTO statement if it's a continuation.
+    Ensures each chunk starts with a valid INSERT INTO statement if it's a continuation and ends with a semicolon (;).
 
     :param file_path: Path to the large SQL file.
     :param chunk_size: Maximum size (in bytes) for each chunk.
@@ -26,15 +26,20 @@ def split_large_sql(file_path, chunk_size, output_dir):
                     parent_query = line.strip()
                     is_continuing_insert = False
 
-                # If chunk exceeds size and ends with values (e.g., ...);)
-                if current_chunk_size >= chunk_size and line.strip().endswith(");"):
+                # If chunk exceeds size
+                if current_chunk_size >= chunk_size:
+                    # Ensure the chunk ends with a semicolon if it ends with a comma
+                    if chunk_data.strip().endswith(","):
+                        chunk_data = chunk_data.strip()[:-1] + ";"
+
+                    # Write the chunk to a file
                     chunk_file_path = os.path.join(output_dir, f'chunk_{chunk_index}.sql')
                     with open(chunk_file_path, 'w', encoding='utf-8') as chunk_file:
                         chunk_file.write(chunk_data)
                     print(f"Created chunk: {chunk_file_path}")
 
                     # Reset for the next chunk
-                    chunk_data = ""  # Reset the chunk data
+                    chunk_data = ""
                     current_chunk_size = 0
                     chunk_index += 1
                     is_continuing_insert = True
@@ -51,6 +56,10 @@ def split_large_sql(file_path, chunk_size, output_dir):
 
             # Write any remaining data to the last chunk
             if chunk_data.strip():
+                # Ensure the last chunk ends with a semicolon if it ends with a comma
+                if chunk_data.strip().endswith(","):
+                    chunk_data = chunk_data.strip()[:-1] + ";"
+
                 chunk_file_path = os.path.join(output_dir, f'chunk_{chunk_index}.sql')
                 with open(chunk_file_path, 'w', encoding='utf-8') as chunk_file:
                     chunk_file.write(chunk_data)
@@ -62,7 +71,7 @@ def split_large_sql(file_path, chunk_size, output_dir):
 
 # Usage
 large_sql_file = "main.sql"
-chunk_size_in_bytes = 2 * 1024 * 1024  # 2 MB chunks
+chunk_size_in_bytes = 1 * 1024 * 1024  # 1 MB chunks
 output_directory = "./output"
 
 split_large_sql(large_sql_file, chunk_size_in_bytes, output_directory)
