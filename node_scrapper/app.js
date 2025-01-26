@@ -34,15 +34,12 @@
 //     libxtst6 \
 //     xdg-utils
 
-
-
-
-const scrapeWebsite = require('./scrapper');
+const scrapper = require("./scrapper.js");
 
 async function main() {
-    const url = 'https://www.jumia.com.ng/catalog/?q=kids&shipped_from=country_local';
-    const data = await scrapeWebsite(url);
-    console.log(data); // Output the scraped data
+  const url = "https://comety-template.webflow.io/";
+  const data = await scrapper(url);
+  console.log(data); // Output the scraped data
 }
 
 main();
