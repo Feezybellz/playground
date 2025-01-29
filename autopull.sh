@@ -1,10 +1,19 @@
-#!/bin/bash
 
-# Navigate to your Git repository directory
-cd /var/mckodev/
+#!/bin/bash
 
 # Specify the branch you want to check
 BRANCH="master"  # Replace with your branch name
+WORK_DIR="/var/mckodev"  # Replace with your project directory
+$SSH_FILE_PATH="/root/.ssh/mckodev"  # Replace with your SSH key path
+
+# Start the SSH agent and add the SSH key (if not already started)
+if [ -z "$SSH_AUTH_SOCK" ]; then
+  eval "$(ssh-agent -s) " > /dev/null 2>&1
+  ssh-add ~/.ssh/mckodev < /dev/null
+fi
+
+# Navigate to your Git repository directory
+cd $WORK_DIR
 
 # Fetch updates from the remote repository
 git fetch origin
@@ -17,15 +26,10 @@ remote_hash=$(git rev-parse origin/$BRANCH)
 
 # Check if there are remote changes
 if [ "$local_hash" != "$remote_hash" ]; then
-  echo "There are remote changes detected on branch '$BRANCH'!"
   
   # Trigger your action here
-  # For example, send a notification, pull changes, or run a script
   echo "Pulling changes from remote..."
   git pull origin "$BRANCH"
-
-  # Example: Trigger a custom script
-  # /path/to/your/script.sh
 else
-  echo "No remote changes detected on branch '$BRANCH'."
+ echo "No remote changes detected on branch '$BRANCH'."
 fi
