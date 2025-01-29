@@ -27,6 +27,17 @@ Then copy the output and add it to your git account.
 
 For github Goto Settings > SSH and GPG keys > New SSH key.
 For Bitbucket Goto Settings > SSH keys > Add key.
+
+Then give this file execute permission.
+chmod +x /path/to/file
+
+
+To run this script every 2 minutes, add it to your crontab:
+run: 
+crontab -e
+
+and add the following line:
+*/2 * * * * /path/to/file
 COMMENT
 
 
