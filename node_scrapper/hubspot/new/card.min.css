@@ -1,0 +1,85 @@
+:root {
+  --cl-card-border-width: 0px;
+  --cl-card-border-color: transparent;
+}
+.cl-card {
+  --cl-card-background-color: var(--cl-color-container-01, #fff);
+  --cl-card-hover-background-color: var(--cl-color-hover-01, #eaf0f6);
+  --cl-card-text-color: var(--cl-color-text-01, #213343);
+  background: var(--cl-card-background-color);
+  border: var(--cl-card-border-width, 0) solid
+    var(--cl-card-border-color, transparent);
+  border-radius: 8px;
+  color: var(--cl-card-text-color);
+  position: relative;
+}
+.cl-card.-container-01 {
+  --cl-card-background-color: var(--cl-color-container-01, #fff);
+  --cl-card-hover-background-color: var(--cl-color-hover-01, #eaf0f6);
+}
+.cl-card.-container-02 {
+  --cl-card-background-color: var(--cl-color-container-02, #f6f9fc);
+  --cl-card-hover-background-color: var(--cl-color-hover-02, #eaf0f6);
+}
+.cl-card.-container-03 {
+  --cl-card-background-color: var(--cl-color-container-03, #eaf0f6);
+  --cl-card-hover-background-color: var(--cl-color-hover-03, #b6c7d6);
+}
+.cl-card.-container-inverse-01 {
+  --cl-card-background-color: var(--cl-color-container-inverse-01, #192733);
+  --cl-card-text-color: var(--cl-color-text-on-color-01, #fff);
+}
+.cl-card.-border {
+  --cl-card-border-width: 1px;
+  --cl-card-border-color: var(--cl-color-border-03, #dbe4ed);
+}
+.cl-card.-edge-left,
+.cl-card.-edge-top {
+  --cl-card-edge-color: var(--cl-card-edge-color-light);
+}
+.-dark.cl-card.-edge-left,
+.-dark.cl-card.-edge-top {
+  --cl-card-edge-color: var(--cl-card-edge-color-dark);
+}
+.cl-card.-edge-left:before,
+.cl-card.-edge-top:before {
+  background: var(--cl-card-edge-color);
+  content: "";
+  display: block;
+  inset: calc(var(--cl-card-border-width) * -1);
+  position: absolute;
+}
+.cl-card.-edge-left:before {
+  border-bottom-left-radius: inherit;
+  border-top-left-radius: inherit;
+  width: 12px;
+}
+.cl-card.-edge-top:before {
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+  height: 12px;
+}
+.cl-card.-green,
+.cl-card.-oz {
+  --cl-card-edge-color-light: #4fb06d;
+  --cl-card-edge-color-dark: #cae7d3;
+}
+.cl-card.-lorax,
+.cl-card.-tangerine {
+  --cl-card-edge-color-light: #ff5c35;
+  --cl-card-edge-color-dark: #ffcec2;
+}
+.cl-card.-calypso,
+.cl-card.-teal {
+  --cl-card-edge-color-light: #0fbfbf;
+  --cl-card-edge-color-dark: #b7ecec;
+}
+.cl-card.-marigold,
+.cl-card.-yellow {
+  --cl-card-edge-color-light: #ffbc4b;
+  --cl-card-edge-color-dark: #ffebc9;
+}
+.cl-card.-hoverable:hover {
+  background: var(--cl-card-hover-background-color);
+  box-shadow: 0 0 0 1px var(--cl-card-border-color);
+}

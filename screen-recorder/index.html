@@ -1,114 +1,191 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
-    <meta charset="utf-8">
-    <title></title>
+    <meta charset="utf-8" />
+    <title>Screen & Camera Capture</title>
   </head>
-  <body>
-
-  </body>
+  <body></body>
 
   <script type="text/javascript">
     const log = console.log;
     const div = document.createElement("div");
-    const button = document.createElement("button");
-    button.innerHTML = "capture";
 
+    // Checkbox for enabling the camera
+    const enableCameraCheckBox = document.createElement("input");
+    enableCameraCheckBox.type = "checkbox";
+    enableCameraCheckBox.id = "enableCamera";
+    const enableCameraText = document.createElement("span");
+    enableCameraText.innerText = "Enable Camera (PiP)";
 
+    // Checkbox for system sound
     const soundCheckBox = document.createElement("input");
     soundCheckBox.type = "checkbox";
-    const soundCheckBoxText =  document.createElement("span");
+    soundCheckBox.id = "useSound";
+    const soundCheckBoxText = document.createElement("span");
     soundCheckBoxText.innerText = "Use System Sound";
 
+    // Checkbox for microphone
     const microphoneCheckBox = document.createElement("input");
     microphoneCheckBox.type = "checkbox";
-    const microphoneCheckBoxText =  document.createElement("span");
+    microphoneCheckBox.id = "useMicrophone";
+    const microphoneCheckBoxText = document.createElement("span");
     microphoneCheckBoxText.innerText = "Use Microphone";
 
-    div.insertAdjacentElement('beforeend', microphoneCheckBox);
-    div.insertAdjacentElement('beforeend', microphoneCheckBoxText);
+    // Capture button
+    const captureButton = document.createElement("button");
+    captureButton.innerHTML = "Capture Screen";
 
-    div.insertAdjacentElement('beforeend', soundCheckBox);
-    div.insertAdjacentElement('beforeend', soundCheckBoxText);
+    // Append elements
+    div.appendChild(enableCameraCheckBox);
+    div.appendChild(enableCameraText);
+    div.appendChild(document.createElement("br"));
 
+    div.appendChild(microphoneCheckBox);
+    div.appendChild(microphoneCheckBoxText);
+    div.appendChild(document.createElement("br"));
+
+    div.appendChild(soundCheckBox);
+    div.appendChild(soundCheckBoxText);
+    div.appendChild(document.createElement("br"));
 
     document.body.append(div);
-    document.body.append(button);
-    button.addEventListener("click", async () => {
-      let mediaObject = { video: true, };
+    document.body.append(captureButton);
+
+    let cameraStream;
+    let videoElement = null;
+
+    // Function to start the camera and enable PiP
+    async function startCameraWithPiP() {
+      if (enableCameraCheckBox.checked) {
+        try {
+          let mediaConstraints = { video: true };
+
+          // Ensure microphone is properly requested
+          if (microphoneCheckBox.checked) {
+            mediaConstraints.audio = {
+              echoCancellation: true,
+              noiseSuppression: true,
+            };
+          }
+
+          cameraStream = await navigator.mediaDevices.getUserMedia(
+            mediaConstraints
+          );
+
+          // Create video element if not already created
+          if (!videoElement) {
+            videoElement = document.createElement("video");
+            videoElement.id = "camera-video";
+            videoElement.style.width = "200px";
+            videoElement.autoplay = true;
+            videoElement.muted = microphoneCheckBox.checked; // Unmute only if mic is checked
+            setTimeout(() => {
+              videoElement.style.visibility = "hidden";
+              videoElement.style.width = "0px";
+              videoElement.style.height = "0px";
+            }, 500);
+            document.body.append(videoElement);
+          }
+
+          videoElement.srcObject = cameraStream;
+
+          // Enable Picture-in-Picture automatically
+          enablePiP(videoElement);
+        } catch (err) {
+          console.error("Error accessing camera/microphone:", err);
+          alert("Please allow camera and microphone permissions.");
+        }
+      } else {
+        // Stop the camera if unchecked
+        if (cameraStream) {
+          cameraStream.getTracks().forEach((track) => track.stop());
+          cameraStream = null;
+        }
+        if (videoElement) {
+          videoElement.remove();
+          videoElement = null;
+        }
+      }
+    }
+
+    // Event listener for enabling camera
+    enableCameraCheckBox.addEventListener("change", startCameraWithPiP);
+
+    // Event listener for capturing the screen
+    captureButton.addEventListener("click", async () => {
+      let mediaObject = { video: true };
 
       if (soundCheckBox.checked) {
         mediaObject.audio = true;
       }
 
-
       if (microphoneCheckBox.checked) {
-          mediaObject.audio = true;
-        }
-
-
-      const stream = await navigator.mediaDevices.getDisplayMedia(mediaObject);
-      const recoder = new MediaRecorder(stream);
-
-      const [video] = stream.getVideoTracks();
-
-
-
-      if (microphoneCheckBox.checked) {
-
-          const camera = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
-
-          let videoElement = document.querySelector("#camera-video");
-          if([null, undefined].includes(videoElement)){
-
-            videoElement = document.createElement("video");
-            videoElement.id = "camera-video";
-          }
-          videoElement.style.width = "200px";
-          videoElement.srcObject = camera;
-          videoElement.muted = true;
-          videoElement.play();
-          document.body.append(videoElement)
-
-        mediaObject.audio =  {
-              echoCancellation: true,
-              noiseSuppression: true,
-              sampleRate: 44100, // You can adjust this sample rate as needed
-            };
-
-        video.addEventListener("ended", () => {
-          console.log(camera);
-          const tracks = camera.getTracks();
-          tracks.forEach(track => track.stop());
-          videoElement.remove();
-        });
-
+        mediaObject.audio = { echoCancellation: true, noiseSuppression: true };
       }
 
-      recoder.start();
+      try {
+        const screenStream = await navigator.mediaDevices.getDisplayMedia(
+          mediaObject
+        );
+
+        // Merge microphone audio if enabled
+        if (microphoneCheckBox.checked) {
+          const micStream = await navigator.mediaDevices.getUserMedia({
+            audio: true,
+          });
+          const mixedStream = new MediaStream([
+            ...screenStream.getVideoTracks(),
+            ...micStream.getAudioTracks(),
+          ]);
+          recordScreen(mixedStream);
+        } else {
+          recordScreen(screenStream);
+        }
+      } catch (err) {
+        console.error("Error capturing screen:", err);
+      }
+    });
+
+    function recordScreen(stream) {
+      const recorder = new MediaRecorder(stream);
+      const [video] = stream.getVideoTracks();
+
+      recorder.start();
 
       video.addEventListener("ended", () => {
-        recoder.stop();
+        recorder.stop();
       });
 
-      recoder.addEventListener("dataavailable", (evt) => {
-
-        let videoPlayer = document.querySelector('#screen-record-player');
-        if([null, undefined].includes(videoPlayer)){
-          videoPlayer = document.createElement('video');
-          videoPlayer.id = 'screen-record-player';
+      recorder.addEventListener("dataavailable", (evt) => {
+        let videoPlayer = document.querySelector("#screen-record-player");
+        if (!videoPlayer) {
+          videoPlayer = document.createElement("video");
+          videoPlayer.id = "screen-record-player";
+          videoPlayer.style.width = "100vw";
+          videoPlayer.controls = true;
+          document.body.append(videoPlayer);
         }
 
         videoPlayer.src = URL.createObjectURL(evt.data);
-        videoPlayer.style.width = "100vw";
-        videoPlayer.controls = true;
 
-        document.body.append(videoPlayer)
         const a = document.createElement("a");
         a.href = URL.createObjectURL(evt.data);
         a.download = "capture.webm";
-        a.click();
+        document.body.append(a);
+        a.addEventListener("click", () => {
+          a.remove();
+        });
       });
-    });
+    }
+
+    // Automatically enable Picture-in-Picture for the camera preview
+    async function enablePiP(videoElement) {
+      try {
+        await videoElement.requestPictureInPicture();
+      } catch (err) {
+        console.error("Error enabling Picture-in-Picture:", err);
+        setTimeout(() => enablePiP(videoElement), 1000);
+      }
+    }
   </script>
 </html>

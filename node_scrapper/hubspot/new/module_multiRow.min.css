@@ -1,0 +1,159 @@
+.cl-playButton:focus-visible {
+  outline: 2px solid var(--cl-color-focus-01, #0068b1);
+  outline-offset: 2px;
+}
+.cl-playButton {
+  background-color: #ff5c35;
+  background-image: url(https://www.hubspot.com/hubfs/assets/hs-components/v3/cl-play-button-icon.svg);
+  background-position-x: 55%;
+  background-position-y: 50%;
+  background-repeat: no-repeat;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.cl-playButton:focus-visible,
+.cl-playButton:hover {
+  background-color: #e04826;
+  opacity: 1;
+}
+.cl-playButton:active {
+  background-color: #b3361d;
+  opacity: 1;
+}
+@media (min-width: 600px) {
+  .cl-playButton {
+    opacity: 0.8;
+    transition: opacity 0.3s ease-in-out;
+  }
+  .high-contrast .cl-playButton {
+    opacity: 1;
+  }
+}
+.cl-playButton.-large {
+  background-size: 2rem;
+  height: 8rem;
+  width: 8rem;
+}
+.cl-playButton.-medium {
+  background-size: 1.5rem;
+  height: 6rem;
+  width: 6rem;
+}
+.cl-playButton,
+.cl-playButton.-small {
+  background-size: 1rem;
+  height: 4rem;
+  width: 4rem;
+}
+.csol-multi-row-media {
+  align-self: center;
+  grid-area: media;
+  position: relative;
+  width: 100%;
+}
+.csol-multi-row-media > iframe,
+.csol-multi-row-media > img,
+.csol-multi-row-media > video {
+  height: 100%;
+  object-fit: contain;
+  object-position: top;
+  width: 100%;
+}
+.csol-multi-row-media > iframe,
+.csol-multi-row-media > video {
+  aspect-ratio: 16/9;
+}
+.csol-multi-row-media.-carousel {
+  container-name: carousel-wrapper;
+  container-type: inline-size;
+}
+.csol-multi-row-media .cl-carousel-slide {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+.csol-multi-row-media.-border iframe,
+.csol-multi-row-media.-border img {
+  border: 2px solid var(--cl-color-border-03, #dbe4ed);
+  border-radius: 4px;
+}
+.csol-multi-row-media.-lazy > img {
+  aspect-ratio: 16/9;
+  cursor: pointer;
+  object-fit: cover;
+  object-position: center;
+}
+.csol-multi-row-media.-lazy > iframe {
+  display: none;
+}
+.csol-multi-row-media .csol-multi-row-play-video-button {
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  left: 50%;
+  padding: 0;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.csol-multi-row-media .csol-multi-row-play-video-button.-youtube {
+  background-color: transparent;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 68 48"><path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="red"/><path d="M45 24 27 14v20" fill="white"/></svg>');
+  height: 48px;
+  width: 68px;
+}
+.csol-multi-row-media.-loaded .csol-multi-row-play-video-button,
+.csol-multi-row-media.-loaded > img {
+  display: none;
+}
+.csol-multi-row-rich-text {
+  align-self: center;
+  grid-area: text;
+}
+.csol-multi-row-rich-text > :first-child {
+  margin-top: 0;
+}
+.csol-multi-row-rich-text > :last-child:not(:first-child) {
+  margin-bottom: 0;
+}
+.csol-multi-row-grid {
+  gap: 30px;
+}
+.csol-multi-row-grid:not(:last-of-type) {
+  padding-bottom: 40px;
+}
+@media (min-width: 600px) {
+  .csol-multi-row-grid:not(:last-of-type) {
+    padding-bottom: 64px;
+  }
+  .csol-multi-row-grid {
+    column-gap: 2rem;
+    display: grid;
+    grid-template-areas: "media media media media media media text text text text text text";
+    grid-template-columns: repeat(12, 1fr);
+  }
+  .csol-multi-row-grid.-small-media,
+  .csol-multi-row-grid.-xs-media {
+    grid-template-areas: "media media media media text text text text text text text text";
+  }
+  .csol-multi-row-grid.-large-media {
+    grid-template-areas: "media media media media media media media media text text text text";
+  }
+  .csol-multi-row-grid.-rich-text-first {
+    grid-template-areas: "text text text text text text media media media media media media";
+  }
+  .csol-multi-row-grid.-rich-text-first.-small-media,
+  .csol-multi-row-grid.-rich-text-first.-xs-media {
+    grid-template-areas: "text text text text text text text text media media media media";
+  }
+  .csol-multi-row-grid.-rich-text-first.-large-media {
+    grid-template-areas: "text text text text media media media media media media media media";
+  }
+  .csol-multi-row-grid.-xs-media .csol-multi-row-media {
+    text-align: center;
+  }
+}
+.csol-multi-row-grid.-xs-media .csol-multi-row-media img {
+  max-width: 150px;
+}

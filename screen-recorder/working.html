@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Screen & Camera Capture</title>
+    <style>
+      #camera-video {
+        width: 200px; /* Set the width */
+        height: 200px; /* Ensure height matches width for a perfect circle */
+        border-radius: 50%; /* Make it round */
+        object-fit: cover; /* Crop to maintain aspect ratio inside the circle */
+        border: 3px solid #fff; /* Optional: Add a border */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Optional: Add a shadow */
+      }
+      .pip-video {
+        /* Flip the video horizontally */
+        transform: scaleX(-1);
+      }
+    </style>
+  </head>
+  <body></body>
+
+  <script type="text/javascript">
+    const log = console.log;
+    const div = document.createElement("div");
+
+    // Checkbox for enabling the camera
+    const enableCameraCheckBox = document.createElement("input");
+    enableCameraCheckBox.type = "checkbox";
+    enableCameraCheckBox.id = "enableCamera";
+    const enableCameraText = document.createElement("span");
+    enableCameraText.innerText = "Enable Camera (PiP)";
+
+    // Checkbox for system sound
+    const soundCheckBox = document.createElement("input");
+    soundCheckBox.type = "checkbox";
+    soundCheckBox.id = "useSound";
+    const soundCheckBoxText = document.createElement("span");
+    soundCheckBoxText.innerText = "Use System Sound";
+
+    // Checkbox for microphone
+    const microphoneCheckBox = document.createElement("input");
+    microphoneCheckBox.type = "checkbox";
+    microphoneCheckBox.id = "useMicrophone";
+    const microphoneCheckBoxText = document.createElement("span");
+    microphoneCheckBoxText.innerText = "Use Microphone";
+
+    // Capture button
+    const captureButton = document.createElement("button");
+    captureButton.innerHTML = "Capture Screen";
+
+    // Append elements
+    div.appendChild(enableCameraCheckBox);
+    div.appendChild(enableCameraText);
+    div.appendChild(document.createElement("br"));
+
+    div.appendChild(microphoneCheckBox);
+    div.appendChild(microphoneCheckBoxText);
+    div.appendChild(document.createElement("br"));
+
+    div.appendChild(soundCheckBox);
+    div.appendChild(soundCheckBoxText);
+    div.appendChild(document.createElement("br"));
+
+    document.body.append(div);
+    document.body.append(captureButton);
+
+    let cameraStream;
+    let videoHolder = null;
+    let videoElement = null;
+
+    // Function to start the camera and enable PiP
+    async function startCameraWithPiP() {
+      if (enableCameraCheckBox.checked) {
+        try {
+          let mediaConstraints = { video: true };
+
+          // Ensure microphone is properly requested
+          if (microphoneCheckBox.checked) {
+            mediaConstraints.audio = {
+              echoCancellation: true,
+              noiseSuppression: true,
+            };
+          }
+
+          cameraStream = await navigator.mediaDevices.getUserMedia(
+            mediaConstraints
+          );
+
+          // Create video element if not already created
+          if (!videoElement) {
+            videoElement = document.createElement("video");
+            videoElement.id = "camera-video";
+            videoElement.style.width = "200px";
+            videoElement.style.height = "200px";
+
+            videoElement.autoplay = true;
+            videoElement.muted = microphoneCheckBox.checked; // Unmute only if mic is checked
+
+            document.body.append(videoElement);
+          }
+
+          //let video element show when I click on back to tab on PiP
+
+          videoElement.srcObject = cameraStream;
+
+          // Enable Picture-in-Picture automatically
+          enablePiP(videoElement);
+        } catch (err) {
+          console.error("Error accessing camera/microphone:", err);
+          alert("Please allow camera and microphone permissions.");
+        }
+      } else {
+        // Stop the camera if unchecked
+        if (cameraStream) {
+          cameraStream.getTracks().forEach((track) => track.stop());
+          cameraStream = null;
+        }
+        if (videoElement) {
+          videoElement.remove();
+          videoElement = null;
+        }
+      }
+    }
+
+    // Event listener for enabling camera
+    enableCameraCheckBox.addEventListener("change", startCameraWithPiP);
+
+    // Event listener for capturing the screen
+    captureButton.addEventListener("click", async () => {
+      let mediaObject = { video: true };
+
+      if (soundCheckBox.checked) {
+        mediaObject.audio = true;
+      }
+
+      if (microphoneCheckBox.checked) {
+        mediaObject.audio = { echoCancellation: true, noiseSuppression: true };
+      }
+
+      try {
+        const screenStream = await navigator.mediaDevices.getDisplayMedia(
+          mediaObject
+        );
+
+        // Merge microphone audio if enabled
+        if (microphoneCheckBox.checked) {
+          const micStream = await navigator.mediaDevices.getUserMedia({
+            audio: true,
+          });
+          const mixedStream = new MediaStream([
+            ...screenStream.getVideoTracks(),
+            ...micStream.getAudioTracks(),
+          ]);
+          recordScreen(mixedStream);
+        } else {
+          recordScreen(screenStream);
+        }
+      } catch (err) {
+        console.error("Error capturing screen:", err);
+      }
+    });
+
+    function recordScreen(stream) {
+      const recorder = new MediaRecorder(stream);
+      const [video] = stream.getVideoTracks();
+
+      recorder.start();
+
+      video.addEventListener("ended", () => {
+        let videoPlayer = document.querySelector("#screen-record-player");
+        if (videoPlayer) {
+          videoPlayer.remove();
+        }
+
+        if (document.querySelector("a.download")) {
+          document.querySelector("a.download").remove();
+        }
+
+        recorder.stop();
+      });
+
+      recorder.addEventListener("dataavailable", (evt) => {
+        let videoPlayer = document.querySelector("#screen-record-player");
+        if (!videoPlayer) {
+          videoPlayer = document.createElement("video");
+          videoPlayer.id = "screen-record-player";
+          videoPlayer.style.width = "100vw";
+          videoPlayer.controls = true;
+          document.body.append(videoPlayer);
+        }
+
+        videoPlayer.src = URL.createObjectURL(evt.data);
+
+        const a = document.createElement("a");
+        a.className = "download";
+        a.href = URL.createObjectURL(evt.data);
+        a.innerHTML = `<button>Download</button>`;
+        a.download = "capture.webm";
+        document.body.append(a);
+        a.addEventListener("click", () => {
+          a.remove();
+        });
+      });
+    }
+
+    // Automatically enable Picture-in-Picture for the camera preview
+    async function enablePiP(videoElement) {
+      try {
+        // Ensure video is playing before requesting PiP
+        videoElement.style.visibility = "hidden";
+
+        videoElement.style.width = "0px";
+        videoElement.style.height = "0px";
+
+        // Wait for metadata to load
+        // if (videoElement.readyState === 0) {
+        //   await new Promise((resolve) =>
+        //     videoElement.addEventListener("loadedmetadata", resolve, {
+        //       once: true,
+        //     })
+        //   );
+        // }
+
+        // Hide video before entering PiP
+        // setTimeout(() => {}, 500);
+
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+
+        videoElement.addEventListener("play", function drawRoundedVideo() {
+          canvas.width = "600";
+          canvas.height = "600";
+
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+          // ctx.save();
+          // ctx.beginPath();
+          // // ctx.arc(
+          // //   canvas.width / 2,
+          // //   canvas.height / 2,
+          // //   canvas.width / 2,
+          // //   0,
+          // //   Math.PI * 2
+          // // );
+          // ctx.clip();
+          ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+
+          ctx.font = "30px Arial"; // Set font size & style
+          ctx.fillStyle = "white"; // Text color
+          ctx.textAlign = "right"; // Align text to the right
+          ctx.fillText(
+            "Built with ❤️ by FeezyBellz",
+            canvas.width - 20,
+            canvas.height - 20
+          );
+
+          // ctx.restore();
+
+          requestAnimationFrame(drawRoundedVideo);
+        });
+        await videoElement.play();
+
+        // Convert canvas to a video stream and enter PiP
+        const stream = canvas.captureStream();
+        const pipVideo = document.createElement("video");
+        pipVideo.className = "pip-video";
+
+        document.body.append(pipVideo);
+        pipVideo.srcObject = stream;
+
+        // Wait for video to load before requesting PiP
+        await pipVideo.play();
+        await pipVideo.requestPictureInPicture();
+
+        setTimeout(() => {
+          pipVideo.style.visibility = "hidden";
+          pipVideo.style.width = "0px";
+          pipVideo.style.height = "0px";
+        }, 100);
+      } catch (err) {
+        console.error("Error enabling Picture-in-Picture:", err);
+        setTimeout(() => enablePiP(videoElement), 1000); // Retry if PiP fails
+      }
+    }
+
+    document.addEventListener("leavepictureinpicture", () => {
+      console.log("PiP mode exited. Showing video element again.");
+      if (videoElement) {
+        videoElement.style.visibility = "visible";
+        videoElement.style.width = "200px";
+        videoElement.style.height = "200px";
+      }
+    });
+  </script>
+</html>

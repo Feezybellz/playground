@@ -1,0 +1,101 @@
+.csol-section-header .csol-section-description,
+.csol-section-header .csol-section-description p {
+  --cl-text-font-size: var(--cl-font-size-p-large, 1.125rem);
+  --cl-text-font-weight: var(--cl-font-weight-p-large, 300);
+  --cl-text-line-height: var(--cl-line-height-p-large, 1.77777778);
+  --cl-text-letter-spacing: var(--cl-letter-spacing-p-large, normal);
+  font-size: var(--cl-text-font-size, 1rem);
+  font-weight: var(--cl-text-font-weight, 300);
+  letter-spacing: var(--cl-text-letter-spacing, normal);
+  line-height: var(--cl-text-line-height, 1.75);
+}
+.csol-section-header .csol-section-header-heading {
+  --cl-anchor-font-weight: inherit;
+  font-size: var(--cl-font-size-h2-small, 1.625rem);
+  font-weight: var(--cl-font-weight-h2-small, 600);
+  letter-spacing: var(--cl-letter-spacing-h2-small, normal);
+  line-height: var(--cl-line-height-h2-small, 1.38);
+}
+@media (min-width: 900px) {
+  .csol-section-header .csol-section-header-heading {
+    font-size: var(--cl-font-size-h2, 2rem);
+    font-weight: var(--cl-font-weight-h2, 600);
+    letter-spacing: var(--cl-letter-spacing-h2, normal);
+    line-height: var(--cl-line-height-h2, 1.375);
+  }
+}
+.csol-section-header .csol-section-header-heading.-medium {
+  font-size: var(--cl-font-size-h3, font-size-h3);
+  font-weight: var(--cl-font-weight-h3, font-weight-medium);
+  letter-spacing: var(--cl-letter-spacing-h3, normal);
+  line-height: var(--cl-line-height-h3, line-height-h3);
+}
+.csol-section-header .csol-section-header-heading.-small {
+  font-size: var(--cl-font-size-h4, 1.375rem);
+  font-weight: var(--cl-font-weight-h4, 500);
+  letter-spacing: var(--cl-letter-spacing-h4, normal);
+  line-height: var(--cl-line-height-h4, 1.45454545);
+}
+.csol-section-header .csol-section-header-heading.-x-small {
+  --cl-anchor-font-weight: inherit;
+  font-size: var(--cl-font-size-h5, 1.125rem);
+  font-weight: var(--cl-font-weight-h5, 600);
+  letter-spacing: var(--cl-letter-spacing-h5, normal);
+  line-height: var(--cl-line-height-h5, 1.55555556);
+}
+.csol-section-header {
+  --csol-section-padding-bottom: 2rem;
+  --csol-section-padding-top-desktop: 0;
+  --csol-section-padding-bottom-desktop: 2rem;
+  text-align: center;
+  width: 100%;
+}
+.csol-section-header .csol-section-wrapper {
+  align-items: center;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+@media (min-width: 600px) {
+  .csol-section-header .csol-section-wrapper {
+    padding-inline: 3rem;
+  }
+}
+.csol-section-header .cl-divider-bar {
+  margin-bottom: 2rem;
+  width: 100%;
+}
+@media (min-width: 600px) {
+  .csol-section-header .cl-divider-bar {
+    width: 21rem;
+  }
+}
+.csol-section-header .csol-section-header-tagline {
+  margin: 0 0 1rem;
+}
+.csol-section-header .csol-section-header-heading {
+  margin-bottom: 1rem;
+  margin-top: 0;
+}
+.csol-section-header .csol-section-header-heading:last-child {
+  margin-bottom: 0;
+}
+.csol-section-header .csol-section-description > :first-child {
+  margin-top: 0;
+}
+.csol-section-header .csol-section-description > :last-child {
+  margin-bottom: 0;
+}
+.csol-section-header .csol-section-header-image {
+  margin-bottom: 2rem;
+  width: 100%;
+}
+.csol-section-header .csol-section-header-image img {
+  height: auto;
+  max-width: 100%;
+  min-height: auto;
+}
+.csol-section-header.-dark {
+  color: #fff;
+}

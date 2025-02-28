@@ -1,0 +1,174 @@
+:root {
+  --wf-integrations-row-flex-direction: column;
+  --wf-integrations-row-gap: 40px;
+  --wf-integrations-tools-container-color: var(--light-theme-text-01);
+  --wf-integrations-tools-container-background-color: var(
+    --light-theme-background-01
+  );
+  --wf-integrations-tools-container-border: var(--border-width-medium) solid
+    var(--light-theme-border-03);
+  --wf-integrations-tools-container-gap: 4rem;
+  --wf-integrations-tools-grid-wrapper-gap: 32px;
+  --wf-integrations-tools-grid-wrapper-gap-small: 48px;
+  --wf-integrations-tools-grid-wrapper-column-count: 3;
+  --wf-integrations-tools-grid-wrapper-column-count-single: 4;
+  --wf-integrations-tools-grid-wrapper-row-count: 2;
+  --wf-integrations-tools-grid-item-wrapper-min-width: 70px;
+  --wf-integrations-tools-grid-item-wrapper-max-width: 100px;
+  --wf-integrations-tools-grid-item-wrapper-min-height: 70px;
+  --wf-integrations-tools-grid-item-wrapper-max-height: 100px;
+  --wf-integrations-tools-title-link-wrapper-gap: 24;
+  --wf-integrations-badge-title-font-size: var(--font-size-h3);
+  --wf-integrations-badge-title-font-weight: var(--font-weight-medium);
+  --wf-integrations-badge-title-line-height: var(--line-height-h3);
+}
+.wf-integrations-tools_grid-item-wrapper.-x-small {
+  --wf-integrations-tools-grid-item-wrapper-min-width: 70px;
+  --wf-integrations-tools-grid-item-wrapper-max-width: 70px;
+  --wf-integrations-tools-grid-item-wrapper-min-height: 70px;
+  --wf-integrations-tools-grid-item-wrapper-max-height: 70px;
+}
+.wf-integrations-tools_grid-item-wrapper.-small {
+  --wf-integrations-tools-grid-item-wrapper-min-width: 100px;
+  --wf-integrations-tools-grid-item-wrapper-max-width: 100px;
+  --wf-integrations-tools-grid-item-wrapper-min-height: 100px;
+  --wf-integrations-tools-grid-item-wrapper-max-height: 100px;
+}
+.wf-integrations-tools_grid-item-wrapper.-medium {
+  --wf-integrations-tools-grid-item-wrapper-min-width: 120px;
+  --wf-integrations-tools-grid-item-wrapper-max-width: 120px;
+  --wf-integrations-tools-grid-item-wrapper-min-height: 120px;
+  --wf-integrations-tools-grid-item-wrapper-max-height: 120px;
+}
+.wf-integrations-tools_grid-item-wrapper.-large {
+  --wf-integrations-tools-grid-item-wrapper-min-width: 140px;
+  --wf-integrations-tools-grid-item-wrapper-max-width: 140px;
+  --wf-integrations-tools-grid-item-wrapper-min-height: 140px;
+  --wf-integrations-tools-grid-item-wrapper-max-height: 140px;
+}
+.wf-integrations-row {
+  display: flex;
+  flex-direction: var(--wf-integrations-row-flex-direction);
+  gap: var(--wf-integrations-row-gap);
+}
+@media (width >= 900px) {
+  :root {
+    --wf-integrations-row-flex-direction: row;
+    --wf-integrations-row-gap: 80px;
+  }
+}
+.wf-integrations-tools_container {
+  align-items: center;
+  color: var(--wf-integrations-tools-container-color);
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  gap: var(--wf-integrations-tools-container-gap);
+  justify-content: flex-end;
+  padding: 40px 24px;
+  text-align: center;
+}
+.wf-integrations-tools_container.-dark {
+  --wf-integrations-tools-container-color: var(--dark-theme-text-01);
+}
+.wf-integrations-tools_container.-text-first {
+  flex-direction: column-reverse;
+}
+.wf-integrations-tools_grid-wrapper {
+  align-content: center;
+  display: grid;
+  flex-grow: 1;
+  gap: var(--wf-integrations-tools-grid-wrapper-gap);
+  grid-template-columns: repeat(
+    var(--wf-integrations-tools-grid-wrapper-column-count),
+    minmax(min-content, max-content)
+  );
+  grid-template-rows: repeat(
+    var(--wf-integrations-tools-grid-wrapper-row-count),
+    minmax(min-content, max-content)
+  );
+  justify-content: center;
+  justify-items: center;
+  width: 100%;
+}
+.wf-integrations-tools_container:only-child
+  .wf-integrations-tools_grid-wrapper {
+  grid-template-columns: repeat(
+    var(--wf-integrations-tools-grid-wrapper-column-count),
+    1fr
+  );
+  grid-template-rows: auto;
+  width: auto;
+}
+@media (width >= 1080px) {
+  .wf-integrations-tools_container:only-child {
+    flex-direction: row;
+  }
+  .wf-integrations-tools_container.-text-first:only-child {
+    flex-direction: row-reverse;
+  }
+  .wf-integrations-tools_container:only-child
+    .wf-integrations-tools_title-link-wrapper {
+    flex-basis: 480px;
+    flex-grow: 1;
+    flex-shrink: 0;
+  }
+  .wf-integrations-tools_container .wf-integrations-tools_grid-wrapper,
+  .wf-integrations-tools_container:only-child
+    .wf-integrations-tools_grid-wrapper {
+    column-gap: var(--wf-integrations-tools-grid-wrapper-gap-small);
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .wf-integrations-tools_container:only-child
+    .wf-integrations-tools_grid-wrapper {
+    width: 100%;
+  }
+  .wf-integrations-tools_container:only-child
+    .wf-integrations-tools_grid-wrapper:only-child {
+    column-gap: var(--wf-integrations-tools-grid-wrapper-gap-small);
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+  }
+}
+.wf-integrations-tools_grid-item-img,
+.wf-integrations-tools_grid-item-wrapper {
+  max-height: var(--wf-integrations-tools-grid-item-wrapper-max-height);
+  max-width: var(--wf-integrations-tools-grid-item-wrapper-max-width);
+  min-height: var(--wf-integrations-tools-grid-item-wrapper-min-height);
+  min-width: var(--wf-integrations-tools-grid-item-wrapper-min-width);
+}
+.wf-integrations-tools_grid-item-img {
+  display: block;
+  height: 100%;
+  object-fit: contain;
+}
+.wf-integrations-tools_title-link-wrapper {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: var(--wf-integrations-tools-title-link-wrapper-gap);
+}
+.wf-integrations-tools_title {
+  color: inherit;
+  font-size: var(--wf-integrations-badge-title-font-size);
+  font-weight: var(--wf-integrations-badge-title-font-weight);
+  line-height: var(--wf-integrations-badge-title-line-height);
+  width: 100%;
+}
+.wf-integrations-tools_description {
+  margin-top: 0;
+}
+.wf-integrations-tools_link {
+  justify-content: center;
+  width: 100%;
+}
+.-center {
+  justify-content: center;
+  text-align: center;
+}
+.-left {
+  justify-content: left;
+  text-align: left;
+}

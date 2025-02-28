@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+
+  </body>
+
+  <script type="text/javascript">
+    const log = console.log;
+    const div = document.createElement("div");
+    const button = document.createElement("button");
+    button.innerHTML = "capture";
+
+
+    const soundCheckBox = document.createElement("input");
+    soundCheckBox.type = "checkbox";
+    const soundCheckBoxText =  document.createElement("span");
+    soundCheckBoxText.innerText = "Use System Sound";
+
+    const microphoneCheckBox = document.createElement("input");
+    microphoneCheckBox.type = "checkbox";
+    const microphoneCheckBoxText =  document.createElement("span");
+    microphoneCheckBoxText.innerText = "Use Microphone";
+
+    div.insertAdjacentElement('beforeend', microphoneCheckBox);
+    div.insertAdjacentElement('beforeend', microphoneCheckBoxText);
+
+    div.insertAdjacentElement('beforeend', soundCheckBox);
+    div.insertAdjacentElement('beforeend', soundCheckBoxText);
+
+
+    document.body.append(div);
+    document.body.append(button);
+    button.addEventListener("click", async () => {
+      let mediaObject = { video: true, };
+
+      if (soundCheckBox.checked) {
+        mediaObject.audio = true;
+      }
+
+
+      if (microphoneCheckBox.checked) {
+          mediaObject.audio = true;
+        }
+
+
+      const stream = await navigator.mediaDevices.getDisplayMedia(mediaObject);
+      const recoder = new MediaRecorder(stream);
+
+      const [video] = stream.getVideoTracks();
+
+
+
+      if (microphoneCheckBox.checked) {
+
+          const camera = await navigator.mediaDevices.getUserMedia({ audio: true, video: true });
+
+          let videoElement = document.querySelector("#camera-video");
+          if([null, undefined].includes(videoElement)){
+
+            videoElement = document.createElement("video");
+            videoElement.id = "camera-video";
+          }
+          videoElement.style.width = "200px";
+          videoElement.srcObject = camera;
+          videoElement.muted = true;
+          videoElement.play();
+          document.body.append(videoElement)
+
+        mediaObject.audio =  {
+              echoCancellation: true,
+              noiseSuppression: true,
+              sampleRate: 44100, // You can adjust this sample rate as needed
+            };
+
+        video.addEventListener("ended", () => {
+          console.log(camera);
+          const tracks = camera.getTracks();
+          tracks.forEach(track => track.stop());
+          videoElement.remove();
+        });
+
+      }
+
+      recoder.start();
+
+      video.addEventListener("ended", () => {
+        recoder.stop();
+      });
+
+      recoder.addEventListener("dataavailable", (evt) => {
+
+        let videoPlayer = document.querySelector('#screen-record-player');
+        if([null, undefined].includes(videoPlayer)){
+          videoPlayer = document.createElement('video');
+          videoPlayer.id = 'screen-record-player';
+        }
+
+        videoPlayer.src = URL.createObjectURL(evt.data);
+        videoPlayer.style.width = "100vw";
+        videoPlayer.controls = true;
+
+        document.body.append(videoPlayer)
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(evt.data);
+        a.download = "capture.webm";
+        a.click();
+      });
+    });
+  </script>
+</html>

@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 2792 340" style="enable-background:new 0 0 2792 340;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#FEF4EA;}
+	.st1{clip-path:url(#SVGID_00000114780752903619044900000007063489953917105802_);}
+	.st2{fill:#FFBA24;}
+	.st3{clip-path:url(#SVGID_00000135662378764630326690000005254840241102696379_);fill:#FF4B1B;}
+	.st4{clip-path:url(#SVGID_00000103241546536103642310000007608079589498306221_);}
+	.st5{fill:#FF8200;}
+</style>
+
+<g>
+	
+	<g>
+		<defs>
+			<rect id="SVGID_00000160151661009893462410000011893850951473293216_" y="3.4" width="2792" height="340"/>
+		</defs>
+		<clipPath id="SVGID_00000090280416076959855580000000121680144979010222_">
+			<use xlink:href="#SVGID_00000160151661009893462410000011893850951473293216_" style="overflow:visible;"/>
+		</clipPath>
+		<path style="clip-path:url(#SVGID_00000090280416076959855580000000121680144979010222_);fill:#FF4B1B;" d="M2529.2,31L2529.2,31    c-104.3,0-188.8,84.5-188.8,188.8v354.6h1.4h376.1v-352v-2.6C2717.9,115.6,2633.4,31,2529.2,31z"/>
+	</g>
+	<g>
+		<defs>
+			<rect id="SVGID_00000110459692961384501390000014682322746973647766_" y="3.4" width="2792" height="340"/>
+		</defs>
+		<clipPath id="SVGID_00000026163977165740934010000007636447902065164433_">
+			<use xlink:href="#SVGID_00000110459692961384501390000014682322746973647766_" style="overflow:visible;"/>
+		</clipPath>
+		<g style="clip-path:url(#SVGID_00000026163977165740934010000007636447902065164433_);">
+			<circle class="st5" cx="2263.5" cy="173.8" r="15"/>
+			<circle class="st5" cx="2305.1" cy="173.8" r="15"/>
+			<circle class="st5" cx="2346.7" cy="173.8" r="15"/>
+			<circle class="st5" cx="2263.5" cy="214.4" r="15"/>
+			<circle class="st5" cx="2305.1" cy="214.4" r="15"/>
+			<circle class="st5" cx="2346.7" cy="214.4" r="15"/>
+			<circle class="st5" cx="2263.5" cy="255.3" r="15"/>
+			<circle class="st5" cx="2305.1" cy="255.3" r="15"/>
+			<circle class="st5" cx="2346.7" cy="255.3" r="15"/>
+		</g>
+	</g>
+</g>
+<g id="text">
+</g>
+</svg>

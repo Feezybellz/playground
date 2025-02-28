@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Screen and Camera Recorder</title>
+    <style media="screen">
+      /* style.css */
+      .video-container {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+      }
+
+      video {
+        width: 45%;
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class=""></div>
+      <div class="">
+        <input type="checkbox" id="useAudio" name="" value="" /> Use Audio
+        <input type="checkbox" id="useCamera" name="" value="" /> Use Camera
+      </div>
+      <button id="startBtn">Start Recording</button>
+      <button id="stopBtn" disabled>Stop Recording</button>
+
+      <div class="video-container">
+        <video id="cameraPreview" autoplay muted></video>
+        <video id="screenPreview" controls></video>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      let mediaRecorder;
+      let recordedChunks = [];
+      let cameraStream = null;
+      let recognition;
+      let transcript = "";
+      let fullTranscript = ""; // Global variable to store the complete transcript
+
+      function startTranscription() {
+        if (!("webkitSpeechRecognition" in window)) {
+          alert("Web Speech API is not supported in this browser.");
+          return;
+        }
+
+        const recognition = new webkitSpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.lang = "en-US";
+
+        recognition.onresult = function (event) {
+          let transcript = "";
+
+          for (let i = event.resultIndex; i < event.results.length; i++) {
+            if (event.results[i].isFinal) {
+              transcript += event.results[i][0].transcript;
+            }
+          }
+
+          fullTranscript += transcript;
+          console.log(fullTranscript);
+        };
+
+        recognition.onerror = function (event) {
+          console.error("Speech recognition error:", event.error);
+
+          if (event.error === "no-speech") {
+            console.log("No speech detected. Restarting...");
+            recognition.stop();
+            setTimeout(() => recognition.start(), 1000);
+          }
+        };
+
+        recognition.start();
+      }
+
+      function stopTranscription() {
+        if (recognition) {
+          recognition.stop();
+          console.log("Transcription stopped.");
+        }
+      }
+
+      document
+        .getElementById("startBtn")
+        .addEventListener("click", async () => {
+          try {
+            startTranscription();
+            const screenStream = await navigator.mediaDevices.getDisplayMedia({
+              video: true,
+            });
+
+            // Stop screen recording when the stop sharing button is clicked
+            screenStream.getVideoTracks()[0].onended = function () {
+              mediaRecorder.stop();
+            };
+
+            const cameraObject = {};
+            if (useAudio.checked) {
+              cameraObject.audio = true;
+            }
+
+            if (useCamera.checked) {
+              cameraObject.video = true;
+            }
+
+            cameraStream = await navigator.mediaDevices.getUserMedia(
+              cameraObject
+            );
+
+            // Display the camera stream in the cameraPreview video element
+            const cameraPreview = document.getElementById("cameraPreview");
+            cameraPreview.srcObject = cameraStream;
+
+            // Enable Picture-in-Picture mode automatically
+            enablePiP(cameraPreview);
+
+            const tracks = [
+              ...screenStream.getTracks(),
+              ...cameraStream.getAudioTracks(),
+            ];
+            const combinedStream = new MediaStream(tracks);
+
+            mediaRecorder = new MediaRecorder(combinedStream);
+            mediaRecorder.ondataavailable = function (event) {
+              recordedChunks.push(event.data);
+            };
+            mediaRecorder.onstop = handleStop;
+            mediaRecorder.start();
+
+            document.getElementById("startBtn").disabled = true;
+            document.getElementById("stopBtn").disabled = false;
+          } catch (error) {
+            console.error("Error capturing media:", error);
+          }
+        });
+
+      document.getElementById("stopBtn").addEventListener("click", () => {
+        mediaRecorder.stop();
+      });
+
+      function handleStop() {
+        stopTranscription();
+        console.log(fullTranscript);
+
+        cameraStream.getTracks().forEach((track) => track.stop());
+        document.getElementById("startBtn").disabled = false;
+        document.getElementById("stopBtn").disabled = true;
+
+        const blob = new Blob(recordedChunks, { type: "video/webm" });
+        recordedChunks = [];
+
+        const url = URL.createObjectURL(blob);
+        document.getElementById("screenPreview").src = url;
+
+        document.getElementById("cameraPreview").srcObject = null;
+
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "recording.webm";
+        a.click();
+      }
+
+      // Automatically enable Picture-in-Picture for the camera preview
+      async function enablePiP(videoElement) {
+        try {
+          await videoElement.requestPictureInPicture();
+        } catch (err) {
+          console.error("Error enabling Picture-in-Picture:", err);
+          // Retry after 1 second if PiP fails
+          setTimeout(() => enablePiP(videoElement), 1000);
+        }
+      }
+    </script>
+  </body>
+</html>

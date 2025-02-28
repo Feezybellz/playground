@@ -1,0 +1,2 @@
+Afeez, 1, 20
+Israel, 2, 50

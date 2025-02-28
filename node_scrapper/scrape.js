@@ -1,10 +1,12 @@
+// npx puppeteer browsers install chrome
 const puppeteer = require("puppeteer");
 const fs = require("fs");
 const path = require("path");
 
 (async () => {
-  const url = "https://comety-template.webflow.io/";
-  const outputDir = "downloaded_website"; // Directory to save the website
+  const url =
+    "https://www.hubspot.com/our-story?_hstc=95980867.8f980cd32dbd06b96d5eb3246c0a1912.1738774387685.1738774387685.1738774387685.1&hssc=95980867.1.1738774387685&_hsfp=2623280144";
+  const outputDir = "hubspot"; // Directory to save the website
   const visitedUrls = new Set(); // Track visited URLs to avoid duplicates
 
   // Create output directory if it doesn't exist
