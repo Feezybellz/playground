@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Record & Upload Product</title>
+    <style>
+      body {
+        text-align: center;
+        font-family: Arial, sans-serif;
+      }
+      video {
+        width: 100%;
+        max-width: 600px;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Record & Upload Product</h1>
+
+    <video id="preview" autoplay></video>
+    <button onclick="startRecording()">Start Recording</button>
+    <button onclick="stopRecording()">Stop & Upload</button>
+
+    <video id="recordedVideo" controls></video>
+    <div id="qrCode"></div>
+
+    <script>
+      let mediaRecorder;
+      let recordedChunks = [];
+
+      async function startRecording() {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: true,
+        });
+        document.getElementById("preview").srcObject = stream;
+
+        mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.ondataavailable = (event) =>
+          recordedChunks.push(event.data);
+        mediaRecorder.onstop = async () => {
+          const blob = new Blob(recordedChunks, { type: "video/mp4" });
+          recordedChunks = [];
+
+          const formData = new FormData();
+          formData.append("video", blob, "product-video.mp4");
+          const response = await fetch("http://localhost:5000/upload", {
+            method: "POST",
+            body: formData,
+          });
+          const data = await response.json();
+
+          if (data.success) {
+            document.getElementById("recordedVideo").src = data.videoUrl;
+            document.getElementById("qrCode").innerHTML = `
+                        <p>Scan to View in AR:</p>
+                        <img src="${data.qrUrl}" />
+                    `;
+          }
+        };
+
+        mediaRecorder.start();
+      }
+
+      function stopRecording() {
+        mediaRecorder.stop();
+      }
+    </script>
+  </body>
+</html>

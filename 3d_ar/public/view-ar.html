@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>View Product in AR</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  </head>
+  <body>
+    <h1>View Product in AR</h1>
+
+    <a-scene embedded arjs>
+      <a-video
+        id="videoTexture"
+        position="0 1.5 -3"
+        rotation="0 0 0"
+        width="2"
+        height="2"
+      ></a-video>
+      <a-marker preset="hiro"></a-marker>
+      <a-entity camera></a-entity>
+    </a-scene>
+
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const videoUrl = params.get("video");
+      if (videoUrl) {
+        const videoEl = document.createElement("video");
+        videoEl.src = videoUrl;
+        videoEl.loop = true;
+        videoEl.autoplay = true;
+        videoEl.setAttribute("crossorigin", "anonymous");
+
+        document.querySelector("#videoTexture").setAttribute("src", videoUrl);
+      }
+    </script>
+  </body>
+</html>
